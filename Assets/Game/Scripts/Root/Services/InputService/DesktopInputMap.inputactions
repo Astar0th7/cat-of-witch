@@ -1,0 +1,34 @@
+{
+    "name": "DesktopInputMap",
+    "maps": [
+        {
+            "name": "Mouse",
+            "id": "df8cd4a2-9d3e-425f-bac1-e85e6f0d6682",
+            "actions": [
+                {
+                    "name": "Drag",
+                    "type": "Button",
+                    "id": "23bbdb6b-ab87-4af2-b356-33ae69039682",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3ce181c6-489c-4b2c-887e-f7f282d0cd66",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

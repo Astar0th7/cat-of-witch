@@ -1,4 +1,5 @@
-﻿using Root.Services.SaveLoad;
+﻿using Root.Services.InputService;
+using Root.Services.SaveLoad;
 using Root.Services.SceneLoad;
 using Services.SaveLoad;
 using UnityEngine;
@@ -22,7 +23,11 @@ namespace Root.Installers
             Container
                 .BindInterfacesTo<DesktopSaveLoadService>()
                 .AsSingle();
-
+            
+            Container
+                .BindInterfacesTo<DesktopInputService>()
+                .AsSingle();
+            
 #if UNITY_EDITOR
             if (Application.isPlaying && SceneManager.GetActiveScene().name != SceneNames.INITIAL)
             {
