@@ -9,7 +9,7 @@ namespace Gameplay.Installers
     {
         [SerializeField] private UIGameplayMenuView _gameplayMenuView;
         [SerializeField] private UIGameplayHUDView _gameplayHUDView;
-        
+        [SerializeField] private UIEnemyInfoView _enemyInfoView;
         
         public override void InstallBindings()
         {
@@ -23,6 +23,12 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<GameplayHUDPresenter>()
                 .AsSingle()
                 .WithArguments(_gameplayHUDView)
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<EnemyInfoPresenter>()
+                .AsSingle()
+                .WithArguments(_enemyInfoView)
                 .NonLazy();
         }
     }
