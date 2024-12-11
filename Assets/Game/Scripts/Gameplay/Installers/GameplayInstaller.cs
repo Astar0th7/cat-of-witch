@@ -1,4 +1,5 @@
-﻿using Gameplay.Model;
+﻿using Game.Scripts.Gameplay;
+using Gameplay.Model;
 using Gameplay.View;
 using UnityEngine;
 using Zenject;
@@ -8,6 +9,8 @@ namespace Gameplay.Installers
     public class GameplayInstaller : MonoInstaller
     {
         [SerializeField] private Deck _deck;
+        [SerializeField] private BattleZone _battleZone;
+        
         
         public override void InstallBindings()
         {
@@ -26,6 +29,11 @@ namespace Gameplay.Installers
             Container
                 .BindInterfacesAndSelfTo<Deck>()
                 .FromInstance(_deck)
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<BattleZone>()
+                .FromInstance(_battleZone)
                 .AsSingle();
         }
     }

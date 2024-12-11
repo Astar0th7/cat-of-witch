@@ -1,5 +1,4 @@
-﻿using System;
-using Gameplay.View;
+﻿using Gameplay.View;
 using Root.Services.InputService;
 using UnityEngine;
 using Zenject;
@@ -11,15 +10,17 @@ namespace Game.Scripts.Gameplay.Controls
         private IInputService _inputService;
         private Deck _deck;
         private Camera _camera;
-        private Card _card;
+        private CardView _cardView;
+        private BattleZone _battleZone;
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[1];
 
         [Inject]
-        private void Construct(IInputService inputService, Deck deck)
+        private void Construct(IInputService inputService, Deck deck, BattleZone battleZone)
         {
             _inputService = inputService;
             _deck = deck;
+            _battleZone = battleZone;
         }
 
         private void Start()
@@ -44,7 +45,7 @@ namespace Game.Scripts.Gameplay.Controls
             
             Vector3 targetPosition = _camera.ScreenToWorldPoint(_inputService.MousePosition);
             targetPosition.z = 0f;
-            _card.MoveToTarget(targetPosition);
+            _cardView.MoveToTarget(targetPosition);
         }
 
         private void OnMouseButtonDown()
@@ -53,17 +54,24 @@ namespace Game.Scripts.Gameplay.Controls
             Physics2D.RaycastNonAlloc(mousePosition, Vector2.zero, _hits, Mathf.Infinity);
 
             Collider2D collider = _hits[0].collider;
-            if (collider != null && collider.TryGetComponent(out Card card))
+            if (collider != null && collider.TryGetComponent(out CardView card))
             {
-                _card = card;
-                _card.transform.SetParent(null);
+                _cardView = card;
+                _cardView.transform.SetParent(null);
                 _deck.Refresh();
             }
         }
 
         private void OnMouseButtonUp()
         {
-            _deck.RevertCard(_card);
+            if (_cardView == null)
+                return;
+            
+            if (_cardView.transform.position.y >= _battleZone.transform.position.y)
+                _battleZone.ApplyCard(_cardView);
+            else
+                _deck.RevertCard(_cardView);
+            
             _hits[0] = new RaycastHit2D();
         }
     }

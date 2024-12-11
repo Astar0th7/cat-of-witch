@@ -1,9 +1,12 @@
 ﻿using R3;
+using UnityEngine;
 
 namespace Gameplay.Model.Enemy
 {
     public class EnemyProxy
     {
+        private readonly EnemyData _originData;
+        
         public string Id { get; }
         public string NameKey { get; }
         public int MaxHealth { get; }
@@ -14,8 +17,14 @@ namespace Gameplay.Model.Enemy
             Id = originData.Id;
             NameKey = originData.NameKey;
             MaxHealth = originData.MaxHealth;
-            CurrentHealth = new ReactiveProperty<int>(originData.CurrentHealth);
-            CurrentHealth.Skip(1).Subscribe(value => originData.CurrentHealth = value);
+            _originData = originData;
+            CurrentHealth = new ReactiveProperty<int>(_originData.CurrentHealth);
+            CurrentHealth.Skip(1).Subscribe(value => _originData.CurrentHealth = value);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damage);
         }
     }
 }

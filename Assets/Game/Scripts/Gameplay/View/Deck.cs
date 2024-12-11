@@ -18,9 +18,9 @@ namespace Gameplay.View
             Refresh();
         }
 
-        public void RevertCard(Card freeCard)
+        public void RevertCard(CardView freeCardView)
         {
-            freeCard.transform.SetParent(transform);
+            freeCardView.transform.SetParent(transform);
 
             Refresh();
         }
@@ -29,25 +29,24 @@ namespace Gameplay.View
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                Card currentCard = transform.GetChild(i).GetComponent<Card>();
+                CardView currentCardView = transform.GetChild(i).GetComponent<CardView>();
                 
                 Vector3 targetPosition = Position;
                 
                 if (i == 0)
                 {
-                    targetPosition.x += currentCard.Width / 2 + 0.1f;
+                    targetPosition.x += currentCardView.Width / 2 + 0.1f;
                 }
                 else
                 {
-                    Card previousCard = transform.GetChild(i - 1).GetComponent<Card>();
-                    targetPosition.x = previousCard.TargetPosition.x + (currentCard.Width + 0.1f);
+                    CardView previousCardView = transform.GetChild(i - 1).GetComponent<CardView>();
+                    targetPosition.x = previousCardView.TargetPosition.x + (currentCardView.Width + 0.1f);
                 }
                 
-                targetPosition.y += currentCard.Height / 2 + 0.5f;
+                targetPosition.y += currentCardView.Height / 2 + 0.5f;
                 targetPosition.z = 0;
                 
-                Debug.Log(targetPosition);
-                currentCard.MoveToTarget(targetPosition);
+                currentCardView.MoveToTarget(targetPosition);
             }
         }
     }

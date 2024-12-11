@@ -12,27 +12,19 @@ namespace Gameplay.UI.Presenter
 
         private readonly HealthSliderPresenter _healthSlider;
         private readonly UIEnemyInfoView _view;
-        private readonly CompositeDisposable _subscription = new();
+        private CompositeDisposable _subscription = new();
         
         public EnemyInfoPresenter(UIEnemyInfoView view)
         {
             _view = view;
             _healthSlider = new HealthSliderPresenter(_view.HealthSliderView);
-
-            EnemyData enemyData = new()
-            {
-                Id = "Rat",
-                NameKey = "Rat",
-                MaxHealth = 100,
-                CurrentHealth = 100,
-            };
-            
-            SetDataEnemy(new EnemyProxy(enemyData));
         }
 
         public void SetDataEnemy(EnemyProxy enemy)
         {
             _subscription.Dispose();
+            _subscription = new CompositeDisposable();
+            
             _enemy = enemy;
             _view.SetName(_enemy.NameKey);
             _subscription.Add(_enemy.CurrentHealth.Subscribe(value => _healthSlider.SetHealth(value, enemy.MaxHealth)));
@@ -40,7 +32,7 @@ namespace Gameplay.UI.Presenter
 
         public void Dispose()
         {
-            _subscription.Dispose();
+            _subscription?.Dispose();
         }
     }
 }

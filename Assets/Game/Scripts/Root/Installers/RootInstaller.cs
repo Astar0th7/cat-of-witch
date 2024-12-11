@@ -1,4 +1,5 @@
-﻿using Root.Services.InputService;
+﻿using Root.Services;
+using Root.Services.InputService;
 using Root.Services.SaveLoad;
 using Root.Services.SceneLoad;
 using Services.SaveLoad;
@@ -26,6 +27,10 @@ namespace Root.Installers
             
             Container
                 .BindInterfacesTo<DesktopInputService>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesTo<StaticDataService>()
                 .AsSingle();
             
 #if UNITY_EDITOR
