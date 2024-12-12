@@ -29,6 +29,9 @@ namespace Gameplay.View
 
         private void FixedUpdate()
         {
+            if (Vector3.SqrMagnitude(transform.position - _targetPosition) < 0.0001f)
+                return;
+            
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * 10f);
         }
 
