@@ -1,12 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using Gameplay.Model;
+using Gameplay.Presenters;
 using UnityEngine;
+using Zenject;
 
 namespace Gameplay.View
 {
     public class Deck : MonoBehaviour
     {
-        public Vector3 Position => transform.position;
+        private PlayerBattleProxy _player;
+        
+        private readonly List<CardPresenter> _cards = new();
+        
+        public event Action<CardPresenter> CardSelectEvent;
 
+        [Inject]
+        private void Construct(PlayerBattleProxy player)
+        {
+            _player = player;
+        }
+        
         private void Start()
         {
             Camera main = Camera.main;
@@ -14,40 +28,68 @@ namespace Gameplay.View
             Vector3 bottomLeft = main.ScreenToWorldPoint(screenBottomLeft);
             bottomLeft.z = 0;
             transform.position = bottomLeft;
-            
-            Refresh();
-        }
-
-        public void RevertCard(CardView freeCardView)
-        {
-            freeCardView.transform.SetParent(transform);
 
             Refresh();
         }
 
-        public void Refresh()
+        public void AddCard(CardPresenter card)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            if (_cards.Contains(card))
             {
-                CardView currentCardView = transform.GetChild(i).GetComponent<CardView>();
-                
-                Vector3 targetPosition = Position;
+                Debug.LogError("Карта уже добавлена");
+                return;
+            }
+
+            card.CardApplyEvent += DeleteCard;
+            card.CardSelectEvent += OnCardSelect;
+            _cards.Add(card);
+            Refresh();
+        }
+
+        public void DeleteCard(CardPresenter card)
+        {
+            if (_cards.Contains(card) == false)
+            {
+                Debug.LogError("Такой карты нет в списке");
+                return;
+            }
+            
+            card.CardApplyEvent -= DeleteCard;
+            card.CardSelectEvent -= OnCardSelect;
+            _cards.Remove(card);
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            for (int i = 0; i < _cards.Count; i++)
+            {
+                CardPresenter card = _cards[i];
+                Vector3 targetPosition = transform.position;
                 
                 if (i == 0)
                 {
-                    targetPosition.x += currentCardView.Width / 2 + 0.1f;
+                    targetPosition.x += card.Width / 2 + 0.1f;
                 }
                 else
                 {
-                    CardView previousCardView = transform.GetChild(i - 1).GetComponent<CardView>();
-                    targetPosition.x = previousCardView.TargetPosition.x + (currentCardView.Width + 0.1f);
+                    CardPresenter previousCard = _cards[i - 1];
+                    targetPosition.x = previousCard.TargetPosition.x + (card.Width + 0.1f);
                 }
                 
-                targetPosition.y += currentCardView.Height / 2 + 0.5f;
+                targetPosition.y += card.Height / 2 + 0.1f;
                 targetPosition.z = 0;
-                
-                currentCardView.MoveToTarget(targetPosition);
+
+                card.SetTargetPosition(targetPosition);
             }
+            
+            _player.NumberOfCart.Value = _cards.Count;
+        }
+
+        private void OnCardSelect(CardPresenter card)
+        {
+            DeleteCard(card);
+            CardSelectEvent?.Invoke(card);
         }
     }
 }

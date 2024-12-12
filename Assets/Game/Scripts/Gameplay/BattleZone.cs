@@ -1,5 +1,6 @@
 ﻿using Gameplay.Model;
 using Gameplay.Model.Enemy;
+using Gameplay.Presenters;
 using Gameplay.UI.Presenter;
 using Gameplay.View;
 using UnityEngine;
@@ -9,13 +10,16 @@ namespace Game.Scripts.Gameplay
 {
     public class BattleZone : MonoBehaviour
     {
+        private Deck _deck;
         private EnemyInfoPresenter _enemyInfoPresenter;
-        private EnemyProxy _enemy;
         private PlayerBattleProxy _player;
+        
+        private EnemyProxy _enemy;
 
         [Inject]
-        private void Construct(EnemyInfoPresenter enemyInfoPresenter, PlayerBattleProxy playerBattleProxy)
+        private void Construct(Deck deck, EnemyInfoPresenter enemyInfoPresenter, PlayerBattleProxy playerBattleProxy)
         {
+            _deck = deck;
             _enemyInfoPresenter = enemyInfoPresenter;
             _player = playerBattleProxy;
         }
@@ -34,10 +38,10 @@ namespace Game.Scripts.Gameplay
             _enemyInfoPresenter.SetDataEnemy(_enemy);
         }
         
-        public void ApplyCard(CardView cardView)
+        public void ApplyCard(CardPresenter card)
         {
-            cardView.Card.Apply(_player, _enemy);
-            cardView.Apply();
+            if (card.TryApply(_player, _enemy) == false) 
+                _deck.AddCard(card);
         }
     }
 }

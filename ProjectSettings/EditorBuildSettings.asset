@@ -18,5 +18,7 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/Clean.unity
     guid: 96574aff539928242b625020b8d25576
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: ed39b8107b3f9714f8b3e79fb6849db2, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    com.unity.localization.settings: {fileID: 11400000, guid: 665595a3de453ea48bf03a203331b433, type: 2}
   m_UseUCBPForAssetBundles: 0

@@ -1,4 +1,5 @@
-﻿using Root.Services;
+﻿using Game.Scripts.Root.Services.Translation;
+using Root.Services;
 using Root.Services.InputService;
 using Root.Services.SaveLoad;
 using Root.Services.SceneLoad;
@@ -31,6 +32,10 @@ namespace Root.Installers
             
             Container
                 .BindInterfacesTo<StaticDataService>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesTo<TranslationService>()
                 .AsSingle();
             
 #if UNITY_EDITOR

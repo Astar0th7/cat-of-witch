@@ -11,12 +11,12 @@ namespace Gameplay.Installers
         [SerializeField] private Deck _deck;
         [SerializeField] private BattleZone _battleZone;
         
-        
         public override void InstallBindings()
         {
             PlayerBattleData playerBattleData = new()
             {
-                Health = 10,
+                CurrentHealth = 5,
+                MaxHealth = 10,
                 Energy = 5,
                 NumberOfCart = 3
             };

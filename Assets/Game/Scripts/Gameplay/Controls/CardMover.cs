@@ -1,4 +1,5 @@
-﻿using Gameplay.View;
+﻿using Gameplay.Presenters;
+using Gameplay.View;
 using Root.Services.InputService;
 using UnityEngine;
 using Zenject;
@@ -7,20 +8,21 @@ namespace Game.Scripts.Gameplay.Controls
 {
     public class CardMover : MonoBehaviour
     {
-        private IInputService _inputService;
         private Deck _deck;
-        private Camera _camera;
-        private CardView _cardView;
         private BattleZone _battleZone;
+        private IInputService _inputService;
+        
+        private Camera _camera;
+        private CardPresenter _card;
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[1];
 
         [Inject]
-        private void Construct(IInputService inputService, Deck deck, BattleZone battleZone)
+        private void Construct(Deck deck, BattleZone battleZone, IInputService inputService)
         {
-            _inputService = inputService;
             _deck = deck;
             _battleZone = battleZone;
+            _inputService = inputService;
         }
 
         private void Start()
@@ -30,22 +32,26 @@ namespace Game.Scripts.Gameplay.Controls
             _inputService.Enable();
             _inputService.MouseButtonDownEvent += OnMouseButtonDown;
             _inputService.MouseButtonUpEvent += OnMouseButtonUp;
+            
+            _deck.CardSelectEvent += OnCardSelectEvent;
         }
 
         private void OnDestroy()
         {
             _inputService.MouseButtonDownEvent -= OnMouseButtonDown;
             _inputService.MouseButtonUpEvent -= OnMouseButtonUp;
+            
+            _deck.CardSelectEvent -= OnCardSelectEvent;
         }
 
         private void Update()
         {
-            if (_hits[0].collider == null)
+            if (_card == null)
                 return;
             
             Vector3 targetPosition = _camera.ScreenToWorldPoint(_inputService.MousePosition);
             targetPosition.z = 0f;
-            _cardView.MoveToTarget(targetPosition);
+            _card.SetTargetPosition(targetPosition);
         }
 
         private void OnMouseButtonDown()
@@ -54,25 +60,27 @@ namespace Game.Scripts.Gameplay.Controls
             Physics2D.RaycastNonAlloc(mousePosition, Vector2.zero, _hits, Mathf.Infinity);
 
             Collider2D collider = _hits[0].collider;
-            if (collider != null && collider.TryGetComponent(out CardView card))
-            {
-                _cardView = card;
-                _cardView.transform.SetParent(null);
-                _deck.Refresh();
-            }
+            if (collider != null && collider.TryGetComponent(out CardView card)) 
+                card.Select();
         }
 
         private void OnMouseButtonUp()
         {
-            if (_cardView == null)
+            if (_card == null)
                 return;
             
-            if (_cardView.transform.position.y >= _battleZone.transform.position.y)
-                _battleZone.ApplyCard(_cardView);
+            if (_card.Position.y >= _battleZone.transform.position.y)
+                _battleZone.ApplyCard(_card);
             else
-                _deck.RevertCard(_cardView);
+                _deck.AddCard(_card);
             
+            _card = null;
             _hits[0] = new RaycastHit2D();
+        }
+
+        private void OnCardSelectEvent(CardPresenter card)
+        {
+            _card = card;
         }
     }
 }

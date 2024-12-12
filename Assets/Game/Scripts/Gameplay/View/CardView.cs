@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Gameplay.Model;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.View
 {
@@ -15,23 +20,20 @@ namespace Gameplay.View
         [SerializeField] private SpriteRenderer _iconSprite;
         [SerializeField] private SpriteRenderer _otherStatsSprite;
 
+        private Vector3 _targetPosition;
+
         public float Width => _collider2D.size.x;
         public float Height => _collider2D.size.y;
 
-        public Vector3 TargetPosition { get; private set; }
-        public CardBase Card { get; private set; }
+        public event Action CardSelectEvent;
 
         private void FixedUpdate()
         {
-            if (Vector3.SqrMagnitude(TargetPosition - transform.position) < 0.001f)
-                return;
-            
-            transform.position = Vector3.Lerp(transform.position, TargetPosition, Time.fixedDeltaTime * 10f);
+            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * 10f);
         }
 
-        public void SetBaseInfo(CardBase card, Sprite iconSprite, string nameCard, string description, int costAmount)
+        public void SetBaseInfo(Sprite iconSprite, string nameCard, string description, int costAmount)
         {
-            Card = card;
             _iconSprite.sprite = iconSprite;
             _nameText.text = nameCard;
             _descriptionText.text = description;
@@ -53,26 +55,20 @@ namespace Gameplay.View
             }
         }
 
-        public void MoveToTarget(Vector3 targetPosition)
+        public void SetTarget(Vector3 targetPosition)
         {
-            TargetPosition = targetPosition;
+            _targetPosition = targetPosition;
         }
 
         public void Apply()
         {
             _collider2D.enabled = false;
-            StartCoroutine(Remove());
+            transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
 
-        private IEnumerator Remove()
+        public void Select()
         {
-            while (transform.localScale.x > 0.1f)
-            {
-                transform.localScale -= Vector3.one * (5f * Time.deltaTime);
-                yield return null;
-            }
-            
-            Destroy(gameObject);
+            CardSelectEvent?.Invoke();
         }
     }
 }

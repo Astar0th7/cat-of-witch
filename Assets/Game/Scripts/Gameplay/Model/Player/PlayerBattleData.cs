@@ -2,8 +2,10 @@
 {
     public class PlayerBattleData
     {
-        public int Health;
-        public int Energy;
         public int NumberOfCart;
+        public int CurrentHealth;
+        public int MaxHealth;
+        public int Energy;
+        
     }
 }

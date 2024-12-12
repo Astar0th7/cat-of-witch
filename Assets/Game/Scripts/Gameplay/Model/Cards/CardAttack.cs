@@ -3,20 +3,12 @@ using Gameplay.Model.Enemy;
 
 namespace Gameplay.Model
 {
-    public class CardAttack : CardBase
+    public class CardAttack : CardModel
     {
-        private readonly CardStaticData _data;
+        public CardAttack(CardStaticData data) : base(data) {}
 
-        public CardAttack(CardStaticData data) : base(data.Id, data.Type)
+        protected override void Use(PlayerBattleProxy player, EnemyProxy enemy)
         {
-            _data = data;
-        }
-
-        public override void Apply(PlayerBattleProxy player = null, EnemyProxy enemy = null)
-        {
-            if (enemy == null)
-                throw new ArgumentNullException("Враг не может быть null", nameof(enemy));
-            
             enemy.TakeDamage(_data.Damage);
         }
     }

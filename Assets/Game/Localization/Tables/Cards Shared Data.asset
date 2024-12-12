@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Cards Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Cards
+  m_TableCollectionNameGuidString: 1c7ae3677e6a0ed40b332dc44b4b307e
+  m_Entries:
+  - m_Id: 171308449792
+    m_Key: PawPunch_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 225893122048
+    m_Key: PawPunch_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281497010176
+    m_Key: LickWounds_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293517885440
+    m_Key: LickWounds_description
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 7782736113362796897
+  references:
+    version: 2
+    RefIds:
+    - rid: 7782736113362796897
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1734028437944

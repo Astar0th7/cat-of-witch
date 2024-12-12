@@ -20,7 +20,7 @@ namespace Gameplay.UI.Presenter
         
         void IInitializable.Initialize()
         {
-            _subscriptions.Add(_playerBattleProxy.Health.Subscribe(value => _view.ChangeHealth(value)));
+            _subscriptions.Add(_playerBattleProxy.CurrentHealth.Subscribe(value => _view.ChangeHealth(value)));
             _subscriptions.Add(_playerBattleProxy.Energy.Subscribe(value => _view.ChangeEnergy(value)));
             _subscriptions.Add(_playerBattleProxy.NumberOfCart.Subscribe(value => _view.ChangeNumberOfCard(value)));
         }

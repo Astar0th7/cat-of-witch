@@ -1,9 +1,12 @@
 ﻿using System;
+using Game.Scripts.Root.Services.Translation;
 using Gameplay.Model;
+using Gameplay.Presenters;
 using Gameplay.View;
 using Root.Services;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Game.Scripts.Gameplay
 {
@@ -11,19 +14,24 @@ namespace Game.Scripts.Gameplay
     {
         private Deck _deck;
         private IStaticDataService _staticDataService;
+        private ITranslationService _translationService;
 
         [Inject]
-        private void Construct(Deck deck, IStaticDataService staticDataService)
+        private void Construct(Deck deck, IStaticDataService staticDataService, ITranslationService translationService)
         {
             _deck = deck;
             _staticDataService = staticDataService;
+            _translationService = translationService;
         }
         
-        private void Start()
+        private async void Start()
         {
-            foreach (CardStaticData cardData in _staticDataService.GetAllCards())
+            CardStaticData[] cardsData = _staticDataService.GetAllCards();
+            for (int i = 0; i < 6; i++)
             {
-                CardView cardView = Instantiate(_staticDataService.Card, _deck.transform);
+                int index = Random.Range(0, cardsData.Length);
+                CardStaticData cardData = cardsData[index];
+                CardView cardView = Instantiate(_staticDataService.Card, Vector3.zero, Quaternion.identity);
                 int otherStats = cardData.Type switch
                 {
                     CardType.None => 0,
@@ -33,20 +41,25 @@ namespace Game.Scripts.Gameplay
                     _ => 0
                 };
                 
-                CardBase card = cardData.Type switch
+                CardModel cardModel = cardData.Type switch
                 {
                     CardType.None => null,
                     CardType.Attack => new CardAttack(cardData),
                     CardType.Ability => throw new ArgumentOutOfRangeException(),
-                    CardType.Healing => throw new ArgumentOutOfRangeException(),
+                    CardType.Healing => new CardHealing(cardData),
                     _ => throw new ArgumentOutOfRangeException()
                 };
+
+                CardPresenter card = new(cardView, cardModel);
+                card.Initialize();
+
+                string nameCard = await _translationService.Translate($"{cardData.Id}_name", "Cards");
+                string descriptionCard = await _translationService.Translate($"{cardData.Id}_description", "Cards");
                 
-                cardView.SetBaseInfo(card, cardData.Icon, cardData.Id, cardData.Id, cardData.Cost);
+                cardView.SetBaseInfo(cardData.Icon, nameCard, descriptionCard, cardData.Cost);
                 cardView.SetOtherStats(otherStats, cardData.StatsIcon);
+                _deck.AddCard(card);
             }
-            
-            _deck.Refresh();
         }
     }
 }
