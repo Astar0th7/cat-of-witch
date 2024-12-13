@@ -56,7 +56,7 @@ namespace Game.Scripts.Gameplay
                 string nameCard = await _translationService.Translate($"{cardData.Id}_name", "Cards");
                 string descriptionCard = await _translationService.Translate($"{cardData.Id}_description", "Cards");
                 
-                cardView.SetBaseInfo(cardData.Icon, nameCard, descriptionCard, cardData.Cost);
+                cardView.SetBaseInfo(cardData.Background, cardData.Icon, nameCard, descriptionCard, cardData.Cost);
                 cardView.SetOtherStats(otherStats, cardData.StatsIcon);
                 _deck.AddCard(card);
             }

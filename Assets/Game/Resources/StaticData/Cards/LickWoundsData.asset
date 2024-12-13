@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: LickWounds
   _type: 3
-  _icon: {fileID: 0}
+  _background: {fileID: 21300000, guid: f0d4387123f7ac7469df432661ce5396, type: 3}
+  _icon: {fileID: 21300000, guid: b07b8700686aed94c9f6082a5884e733, type: 3}
   _cost: 1
-  _statsIcon: {fileID: 0}
+  _statsIcon: {fileID: 21300000, guid: ed774824084693e459a064c10aaf4918, type: 3}
   _damage: 0
   _health: 3
   _otherStats: 0

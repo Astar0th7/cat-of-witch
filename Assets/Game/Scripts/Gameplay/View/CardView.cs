@@ -17,6 +17,7 @@ namespace Gameplay.View
         [SerializeField] private TMP_Text _descriptionText;
         [SerializeField] private TMP_Text _costText;
         [SerializeField] private TMP_Text _otherStatsText;
+        [SerializeField] private SpriteRenderer _backgroundSprite;
         [SerializeField] private SpriteRenderer _iconSprite;
         [SerializeField] private SpriteRenderer _otherStatsSprite;
 
@@ -35,19 +36,20 @@ namespace Gameplay.View
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * 10f);
         }
 
-        public void SetBaseInfo(Sprite iconSprite, string nameCard, string description, int costAmount)
+        public void SetBaseInfo(Sprite backgroundSprite, Sprite iconSprite, string nameCard, string description, int costAmount)
         {
             _iconSprite.sprite = iconSprite;
             _nameText.text = nameCard;
             _descriptionText.text = description;
             _costText.text = costAmount.ToString();
+            _backgroundSprite.sprite = backgroundSprite;
         }
 
-        public void SetOtherStats(int otherStats = 0, Sprite otherStatsSprite = null)
+        public void SetOtherStats(int otherStats, Sprite otherStatsSprite)
         {
             _otherStatsText.text = otherStats <= 0 ? string.Empty : otherStats.ToString();
 
-            if (otherStatsSprite != null)
+            if (otherStatsSprite == null)
             {
                 _otherStatsSprite.sprite = otherStatsSprite;
                 _otherStatsSprite.color = Color.clear;

@@ -9,6 +9,7 @@ namespace Gameplay.Model
     {
         [SerializeField] private string _id;
         [SerializeField] private CardType _type;
+        [SerializeField] private Sprite _background;
         [SerializeField] private Sprite _icon;
         [SerializeField] private int _cost;
         
@@ -26,6 +27,7 @@ namespace Gameplay.Model
         
         public string Id => _id;
         public CardType Type => _type;
+        public Sprite Background => _background;
         public Sprite Icon => _icon;
         public int Cost => _cost;
         public int Damage => _damage;

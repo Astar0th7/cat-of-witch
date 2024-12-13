@@ -27,11 +27,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 293517885440
-    m_Localized: Lick the wounds
+    m_Localized: Regenerates 3 health
     m_Metadata:
       m_Items: []
   - m_Id: 225893122048
-    m_Localized: Paw punch
+    m_Localized: Front paw strike, deals 2 damage
     m_Metadata:
       m_Items: []
   references:
