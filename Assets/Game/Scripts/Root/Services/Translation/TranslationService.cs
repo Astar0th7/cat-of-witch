@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine.Localization.Settings;
 
-namespace Game.Scripts.Root.Services.Translation
+namespace Root.Services.Translation
 {
     public class TranslationService : ITranslationService
     {

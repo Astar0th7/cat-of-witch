@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
-using Gameplay.Model;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Rendering;
 
 namespace Gameplay.View
 {
     public class CardView : MonoBehaviour
     {
         [SerializeField] private BoxCollider2D _collider2D;
+        [SerializeField] private SortingGroup _sortingGroup;
         [SerializeField] private TMP_Text _nameText;
         [SerializeField] private TMP_Text _descriptionText;
         [SerializeField] private TMP_Text _costText;
@@ -63,6 +60,11 @@ namespace Gameplay.View
         public void SetTarget(Vector3 targetPosition)
         {
             _targetPosition = targetPosition;
+        }
+
+        public void SetOrderInLayer(int order)
+        {
+            _sortingGroup.sortingOrder = order;
         }
 
         public void Apply()

@@ -23,9 +23,9 @@ namespace Gameplay.View
         
         private void Start()
         {
-            Camera main = Camera.main;
-            Vector3 screenBottomLeft = new(0, 0, main.nearClipPlane);
-            Vector3 bottomLeft = main.ScreenToWorldPoint(screenBottomLeft);
+            Camera camera = Camera.main;
+            Vector3 screenBottomLeft = new(0, 0, camera.nearClipPlane);
+            Vector3 bottomLeft = camera.ScreenToWorldPoint(screenBottomLeft);
             bottomLeft.z = 0;
             transform.position = bottomLeft;
 
@@ -81,6 +81,7 @@ namespace Gameplay.View
                 targetPosition.z = 0;
 
                 card.SetTargetPosition(targetPosition);
+                card.SetOrderInLayer(0);
             }
             
             _player.NumberOfCart.Value = _cards.Count;

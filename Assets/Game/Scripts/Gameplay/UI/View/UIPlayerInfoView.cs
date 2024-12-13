@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.UI.View
 {
-    public class UIGameplayHUDView : MonoBehaviour
+    public class UIPlayerInfoView : MonoBehaviour
     {
         [SerializeField] private TMP_Text _healthText;
         [SerializeField] private TMP_Text _energyText;

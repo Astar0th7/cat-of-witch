@@ -48,6 +48,11 @@ namespace Gameplay.Presenters
             _model.TargetPosition.Value = targetPosition;
         }
 
+        public void SetOrderInLayer(int order)
+        {
+            _view.SetOrderInLayer(order);
+        }
+
         public bool TryApply(PlayerBattleProxy player, EnemyProxy enemy)
         {
             if (_model.TryApply(player, enemy) == false)

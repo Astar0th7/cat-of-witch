@@ -8,11 +8,11 @@ namespace Gameplay.UI.Presenter
 {
     public class GameplayHUDPresenter : IInitializable, IDisposable
     {
-        private readonly UIGameplayHUDView _view;
+        private readonly UIPlayerInfoView _view;
         private readonly PlayerBattleProxy _playerBattleProxy;
         private readonly CompositeDisposable _subscriptions = new(); 
         
-        public GameplayHUDPresenter(UIGameplayHUDView view, PlayerBattleProxy playerBattleProxy)
+        public GameplayHUDPresenter(UIPlayerInfoView view, PlayerBattleProxy playerBattleProxy)
         {
             _view = view;
             _playerBattleProxy = playerBattleProxy;

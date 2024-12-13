@@ -1,6 +1,7 @@
 ﻿using Gameplay.Presenters;
 using Gameplay.View;
 using Root.Services.InputService;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +15,7 @@ namespace Game.Scripts.Gameplay.Controls
         
         private Camera _camera;
         private CardPresenter _card;
+        private Vector3 _mousePosition;
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[1];
 
@@ -48,10 +50,16 @@ namespace Game.Scripts.Gameplay.Controls
         {
             if (_card == null)
                 return;
+
+            Vector3 currentMousePosition = _inputService.MousePosition;
+            if (Vector3.SqrMagnitude(currentMousePosition - _mousePosition) < 0.1f)
+                return;
             
-            Vector3 targetPosition = _camera.ScreenToWorldPoint(_inputService.MousePosition);
+            _mousePosition = currentMousePosition;
+            Vector3 targetPosition = _camera.ScreenToWorldPoint(_mousePosition);
             targetPosition.z = 0f;
             _card.SetTargetPosition(targetPosition);
+            _card.SetOrderInLayer(10);
         }
 
         private void OnMouseButtonDown()

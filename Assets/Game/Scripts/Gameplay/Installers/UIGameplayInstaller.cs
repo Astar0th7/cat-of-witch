@@ -1,6 +1,7 @@
 ﻿using Gameplay.UI.Presenter;
 using Gameplay.UI.View;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Gameplay.Installers
@@ -8,8 +9,10 @@ namespace Gameplay.Installers
     public class UIGameplayInstaller : MonoInstaller
     {
         [SerializeField] private UIGameplayMenuView _gameplayMenuView;
-        [SerializeField] private UIGameplayHUDView _gameplayHUDView;
+        [SerializeField] private UIPlayerInfoView _gameplayHUDView;
         [SerializeField] private UIEnemyInfoView _enemyInfoView;
+        [SerializeField] private UIBattleHudView _battleHudView;
+        
         
         public override void InstallBindings()
         {
@@ -29,6 +32,12 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<EnemyInfoPresenter>()
                 .AsSingle()
                 .WithArguments(_enemyInfoView)
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<BattleHudPresenter>()
+                .AsSingle()
+                .WithArguments(_battleHudView)
                 .NonLazy();
         }
     }

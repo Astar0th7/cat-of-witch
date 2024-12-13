@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace Game.Scripts.Root.Services.Translation
+namespace Root.Services.Translation
 {
     public interface ITranslationService
     {

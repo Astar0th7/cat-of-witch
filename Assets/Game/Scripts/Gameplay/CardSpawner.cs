@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Scripts.Root.Services.Translation;
+﻿using Gameplay.Services;
 using Gameplay.Model;
 using Gameplay.Presenters;
 using Gameplay.View;
@@ -13,51 +12,51 @@ namespace Game.Scripts.Gameplay
     public class CardSpawner : MonoBehaviour
     {
         private Deck _deck;
+        private BattleZone _battleZone;
+        private PlayerBattleProxy _player;
         private IStaticDataService _staticDataService;
-        private ITranslationService _translationService;
+        private IBattleFactory _factory;
 
         [Inject]
-        private void Construct(Deck deck, IStaticDataService staticDataService, ITranslationService translationService)
+        private void Construct(
+            Deck deck, 
+            BattleZone battleZone,
+            PlayerBattleProxy player,
+            IStaticDataService staticDataService, 
+            IBattleFactory factory)
         {
             _deck = deck;
+            _battleZone = battleZone;
+            _player = player;
             _staticDataService = staticDataService;
-            _translationService = translationService;
+            _factory = factory;
         }
         
-        private async void Start()
+        private void Start()
         {
+            _battleZone.EnemyEndStepEvent += OnEnemyEndStep;
+
+            SpawnCards();
+        }
+
+        private void OnEnemyEndStep()
+        {
+            SpawnCards();
+        }
+
+        private async void SpawnCards()
+        {
+            if (_player.NumberOfCart.Value >= 6)
+                return;
+            
             CardStaticData[] cardsData = _staticDataService.GetAllCards();
-            for (int i = 0; i < 6; i++)
+            int amountCards = Random.Range(1, 6 - _player.NumberOfCart.Value);
+
+            for (int i = 0; i < amountCards; i++)
             {
                 int index = Random.Range(0, cardsData.Length);
                 CardStaticData cardData = cardsData[index];
-                CardView cardView = Instantiate(_staticDataService.Card, Vector3.zero, Quaternion.identity);
-                int otherStats = cardData.Type switch
-                {
-                    CardType.None => 0,
-                    CardType.Attack => cardData.Damage,
-                    CardType.Ability => cardData.OtherStats,
-                    CardType.Healing => cardData.Health,
-                    _ => 0
-                };
-                
-                CardModel cardModel = cardData.Type switch
-                {
-                    CardType.None => null,
-                    CardType.Attack => new CardAttack(cardData),
-                    CardType.Ability => throw new ArgumentOutOfRangeException(),
-                    CardType.Healing => new CardHealing(cardData),
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-                CardPresenter card = new(cardView, cardModel);
-                card.Initialize();
-
-                string nameCard = await _translationService.Translate($"{cardData.Id}_name", "Cards");
-                string descriptionCard = await _translationService.Translate($"{cardData.Id}_description", "Cards");
-                
-                cardView.SetBaseInfo(cardData.Background, cardData.Icon, nameCard, descriptionCard, cardData.Cost);
-                cardView.SetOtherStats(otherStats, cardData.StatsIcon);
+                CardPresenter card = await _factory.CreateCard(cardData);
                 _deck.AddCard(card);
             }
         }

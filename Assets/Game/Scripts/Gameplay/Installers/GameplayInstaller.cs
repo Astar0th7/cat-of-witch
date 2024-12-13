@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Gameplay;
+using Gameplay.Services;
 using Gameplay.Model;
 using Gameplay.View;
 using UnityEngine;
@@ -34,6 +35,10 @@ namespace Gameplay.Installers
             Container
                 .BindInterfacesAndSelfTo<BattleZone>()
                 .FromInstance(_battleZone)
+                .AsSingle();
+            
+            Container
+                .BindInterfacesTo<BattleFactory>()
                 .AsSingle();
         }
     }

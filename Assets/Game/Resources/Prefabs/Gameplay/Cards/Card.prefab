@@ -730,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 3729965724810920867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.581, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.555, y: -0.5, z: 0}
   m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -825,7 +825,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.245, y: -0.5}
+  m_AnchoredPosition: {x: -0.208, y: -0.5}
   m_SizeDelta: {x: 0.35, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7596745563874508825
@@ -978,6 +978,7 @@ GameObject:
   - component: {fileID: 8045918472953525877}
   - component: {fileID: 1962807288636743240}
   - component: {fileID: 4626333313189871776}
+  - component: {fileID: 4759635473504040996}
   - component: {fileID: 6964680181179289147}
   m_Layer: 0
   m_Name: Card
@@ -1082,6 +1083,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.0032659, y: 3.0002308}
   m_EdgeRadius: 0
+--- !u!210 &4759635473504040996
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6729997791882500065}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!114 &6964680181179289147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider2D: {fileID: 4626333313189871776}
+  _sortingGroup: {fileID: 4759635473504040996}
   _nameText: {fileID: 5007422389744706782}
   _descriptionText: {fileID: 1896066138659237035}
   _costText: {fileID: 4983943553852757311}

@@ -1,7 +1,6 @@
 ﻿using System;
 using Gameplay.UI.View;
 using Root.Services.SceneLoad;
-using Services.SaveLoad;
 using Zenject;
 
 namespace Gameplay.UI.Presenter
@@ -16,15 +15,32 @@ namespace Gameplay.UI.Presenter
             _view = view;
             _sceneLoadService = sceneLoadService;
         }
-        
-        void IInitializable.Initialize()
+
+        public void Initialize()
         {
+            _view.ContinueButtonClickedEvent += OnContinueButtonClicked;
             _view.MenuButtonClickedEvent += OnMenuButtonClicked;
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
+            _view.ContinueButtonClickedEvent -= OnContinueButtonClicked;
             _view.MenuButtonClickedEvent -= OnMenuButtonClicked;
+        }
+
+        public void Show()
+        {
+            _view.Show();
+        }
+
+        public void Hide()
+        {
+            _view.Hide();
+        }
+
+        private void OnContinueButtonClicked()
+        {
+            Hide();
         }
 
         private void OnMenuButtonClicked()
