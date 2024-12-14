@@ -1,5 +1,5 @@
 ﻿using Gameplay.Model;
-using Gameplay.Model.Enemy;
+using Gameplay.Model.Enemies;
 using Gameplay.View;
 
 namespace Root.Services
@@ -10,5 +10,6 @@ namespace Root.Services
         CardStaticData[] GetAllCards();
         CardView Card { get; }
         EnemyStaticData GetEnemyData(string id);
+        EnemyStaticData[] GetAllEnemies();
     }
 }

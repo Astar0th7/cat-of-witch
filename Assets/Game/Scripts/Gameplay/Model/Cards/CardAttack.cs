@@ -1,5 +1,5 @@
 ﻿using System;
-using Gameplay.Model.Enemy;
+using Gameplay.Model.Enemies;
 
 namespace Gameplay.Model
 {

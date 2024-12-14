@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: RatData
   m_EditorClassIdentifier: 
   _id: Rat
-  _nameKey: Rat
-  _health: 10
+  _maxHealth: 10
+  _abilities: 3
+  _damage: {x: 2, y: 5}
+  _health: {x: 1, y: 3}

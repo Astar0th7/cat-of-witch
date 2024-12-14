@@ -1,6 +1,7 @@
 ﻿using Game.Scripts.Gameplay;
 using Gameplay.Services;
 using Gameplay.Model;
+using Gameplay.Spawners;
 using Gameplay.View;
 using UnityEngine;
 using Zenject;
@@ -28,17 +29,21 @@ namespace Gameplay.Installers
                 .WithArguments(playerBattleData);
             
             Container
+                .BindInterfacesTo<BattleFactory>()
+                .AsSingle();
+
+            Container
+                .BindInterfacesAndSelfTo<EnemySpawner>()
+                .AsSingle();
+
+            Container
                 .BindInterfacesAndSelfTo<Deck>()
                 .FromInstance(_deck)
                 .AsSingle();
-            
+
             Container
                 .BindInterfacesAndSelfTo<BattleZone>()
                 .FromInstance(_battleZone)
-                .AsSingle();
-            
-            Container
-                .BindInterfacesTo<BattleFactory>()
                 .AsSingle();
         }
     }

@@ -37,5 +37,10 @@ namespace Gameplay.Model
         {
             CurrentHealth.Value = Mathf.Min(MaxHealth.Value, CurrentHealth.Value + health);
         }
+
+        public void TakeDamage(int damage)
+        {
+            CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damage);
+        }
     }
 }

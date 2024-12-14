@@ -1,4 +1,4 @@
-﻿using Gameplay.Model.Enemy;
+﻿using Gameplay.Model.Enemies;
 using R3;
 using UnityEngine;
 

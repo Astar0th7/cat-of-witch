@@ -1,6 +1,6 @@
 ﻿using System;
 using Gameplay.Model;
-using Gameplay.Model.Enemy;
+using Gameplay.Model.Enemies;
 using Gameplay.View;
 using R3;
 using UnityEngine;

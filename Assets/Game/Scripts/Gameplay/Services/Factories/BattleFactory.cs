@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Root.Services.Translation;
 using Gameplay.Model;
+using Gameplay.Model.Enemies;
 using Gameplay.Presenters;
 using Gameplay.View;
 using Root.Services;
@@ -59,6 +61,27 @@ namespace Gameplay.Services
             return card;
         }
 
+        public EnemyProxy CreateEnemy(EnemyStaticData enemyStaticData)
+        {
+            EnemyData data = new()
+            {
+                Id = enemyStaticData.Id,
+                CurrentHealth = enemyStaticData.MaxHealth,
+                MaxHealth = enemyStaticData.MaxHealth
+            };
+
+            List<Ability> abilities = new();
+            EnemyProxy enemy = new(data, abilities);
+            
+            if (enemyStaticData.Abilities.HasFlag(AbilityType.Attack)) 
+                abilities.Add(new AbilityAttack(enemy, enemyStaticData));
+            
+            if (enemyStaticData.Abilities.HasFlag(AbilityType.Healing)) 
+                abilities.Add(new AbilityHealing(enemy, enemyStaticData));
+            
+            return enemy;
+        }
+        
         private T Instantiate<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : MonoBehaviour
         {
             return _container.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);

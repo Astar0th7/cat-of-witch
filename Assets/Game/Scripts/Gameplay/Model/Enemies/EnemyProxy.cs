@@ -1,23 +1,25 @@
-﻿using R3;
+﻿using System.Collections.Generic;
+using R3;
 using UnityEngine;
 
-namespace Gameplay.Model.Enemy
+namespace Gameplay.Model.Enemies
 {
     public class EnemyProxy
     {
         private readonly EnemyData _originData;
+        private readonly List<Ability> _abilities;
         
         public string Id { get; }
-        public string NameKey { get; }
         public int MaxHealth { get; }
         public ReactiveProperty<int> CurrentHealth { get; }
         
-        public EnemyProxy(EnemyData originData)
+        public EnemyProxy(EnemyData originData, List<Ability> abilities)
         {
             Id = originData.Id;
-            NameKey = originData.NameKey;
             MaxHealth = originData.MaxHealth;
             _originData = originData;
+            _abilities = abilities;
+            
             CurrentHealth = new ReactiveProperty<int>(_originData.CurrentHealth);
             CurrentHealth.Skip(1).Subscribe(value => _originData.CurrentHealth = value);
         }
@@ -25,6 +27,16 @@ namespace Gameplay.Model.Enemy
         public void TakeDamage(int damage)
         {
             CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damage);
+        }
+
+        public void Heal(int health)
+        {
+            CurrentHealth.Value = Mathf.Min(MaxHealth, CurrentHealth.Value + health);
+        }
+
+        public void UseAbility(PlayerBattleProxy player)
+        {
+            _abilities[Random.Range(0, _abilities.Count)].Apply(player);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.Root;
 using Gameplay.Model;
-using Gameplay.Model.Enemy;
+using Gameplay.Model.Enemies;
 using Gameplay.View;
 using UnityEngine;
 
@@ -42,6 +42,11 @@ namespace Root.Services
                 throw new Exception($"Врага с таким id - {id} не найдено");
             
             return enemy;
+        }
+
+        public EnemyStaticData[] GetAllEnemies()
+        {
+            return _enemiesData.Values.ToArray();
         }
     }
 }

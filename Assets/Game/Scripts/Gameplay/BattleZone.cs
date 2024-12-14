@@ -1,20 +1,21 @@
 ﻿using System;
+using Game.Scripts.Gameplay;
 using Gameplay.Model;
-using Gameplay.Model.Enemy;
+using Gameplay.Model.Enemies;
 using Gameplay.Presenters;
 using Gameplay.UI.Presenter;
 using Gameplay.View;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Gameplay
+namespace Gameplay.Spawners
 {
     public class BattleZone : MonoBehaviour
     {
         private Deck _deck;
-        private EnemyInfoPresenter _enemyInfoPresenter;
         private PlayerBattleProxy _player;
         private BattleHudPresenter _battleHudPresenter;
+        private EnemySpawner _enemySpawner;
 
         private EnemyProxy _enemy;
 
@@ -23,28 +24,19 @@ namespace Game.Scripts.Gameplay
         [Inject]
         private void Construct(
             Deck deck, 
-            EnemyInfoPresenter enemyInfoPresenter, 
             PlayerBattleProxy playerBattleProxy,
-            BattleHudPresenter battleHudPresenter)
+            BattleHudPresenter battleHudPresenter,
+            EnemySpawner enemySpawner)
         {
             _deck = deck;
-            _enemyInfoPresenter = enemyInfoPresenter;
             _player = playerBattleProxy;
             _battleHudPresenter = battleHudPresenter;
+            _enemySpawner = enemySpawner;
         }
 
         private void Start()
         {
-            EnemyData enemyData = new()
-            {
-                Id = "Rat",
-                NameKey = "Rat",
-                MaxHealth = 100,
-                CurrentHealth = 100,
-            };
-
-            _enemy = new EnemyProxy(enemyData);
-            _enemyInfoPresenter.SetDataEnemy(_enemy);
+            _enemy = _enemySpawner.Spawn();
             _battleHudPresenter.EndStepEvent += OnEndStep;
         }
 
@@ -56,7 +48,7 @@ namespace Game.Scripts.Gameplay
 
         private void OnEndStep()
         {
-            // TODO: Тут будет атака врага
+            _enemy.UseAbility(_player);
 
             _player.Energy.Value += 3;
             EnemyEndStepEvent?.Invoke();

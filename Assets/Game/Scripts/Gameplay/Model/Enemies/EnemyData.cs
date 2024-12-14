@@ -1,9 +1,8 @@
-﻿namespace Gameplay.Model.Enemy
+﻿namespace Gameplay.Model.Enemies
 {
     public class EnemyData
     {
         public string Id;
-        public string NameKey;
         public int MaxHealth;
         public int CurrentHealth;
     }
