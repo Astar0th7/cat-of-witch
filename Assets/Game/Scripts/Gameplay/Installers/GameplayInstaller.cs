@@ -15,21 +15,12 @@ namespace Gameplay.Installers
         
         public override void InstallBindings()
         {
-            PlayerBattleData playerBattleData = new()
-            {
-                CurrentHealth = 5,
-                MaxHealth = 10,
-                Energy = 5,
-                NumberOfCart = 3
-            };
-
-            Container
-                .BindInterfacesAndSelfTo<PlayerBattleProxy>()
-                .AsSingle()
-                .WithArguments(playerBattleData);
-            
             Container
                 .BindInterfacesTo<BattleFactory>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<PlayerSpawner>()
                 .AsSingle();
 
             Container

@@ -5,7 +5,7 @@
         public int NumberOfCart;
         public int CurrentHealth;
         public int MaxHealth;
-        public int Energy;
-        
+        public int CurrentEnergy;
+        public int MaxEnergy;
     }
 }

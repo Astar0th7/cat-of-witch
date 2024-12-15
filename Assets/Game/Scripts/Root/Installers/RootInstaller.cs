@@ -1,4 +1,5 @@
-﻿using Root.Services;
+﻿using Gameplay.Model;
+using Root.Services;
 using Root.Services.InputService;
 using Root.Services.SaveLoad;
 using Root.Services.SceneLoad;
@@ -37,6 +38,18 @@ namespace Root.Installers
             Container
                 .BindInterfacesTo<TranslationService>()
                 .AsSingle();
+            
+            // TODO: Данные пользователя будут регистрироваться при загрузке данных, здесь для тестов
+            PlayerData playerData = new()
+            {
+                MaxHealth = 10,
+                MaxEnergy = 6
+            };
+
+            Container
+                .BindInterfacesAndSelfTo<PlayerProxy>()
+                .AsSingle()
+                .WithArguments(playerData);
             
 #if UNITY_EDITOR
             if (Application.isPlaying && SceneManager.GetActiveScene().name != SceneNames.INITIAL)

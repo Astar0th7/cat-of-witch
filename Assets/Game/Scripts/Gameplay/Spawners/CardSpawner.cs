@@ -14,7 +14,7 @@ namespace Game.Scripts.Gameplay
     {
         private Deck _deck;
         private BattleZone _battleZone;
-        private PlayerBattleProxy _player;
+        private PlayerSpawner _playerSpawner;
         private IStaticDataService _staticDataService;
         private IBattleFactory _factory;
 
@@ -22,13 +22,13 @@ namespace Game.Scripts.Gameplay
         private void Construct(
             Deck deck, 
             BattleZone battleZone,
-            PlayerBattleProxy player,
+            PlayerSpawner playerSpawner,
             IStaticDataService staticDataService, 
             IBattleFactory factory)
         {
             _deck = deck;
             _battleZone = battleZone;
-            _player = player;
+            _playerSpawner = playerSpawner;
             _staticDataService = staticDataService;
             _factory = factory;
         }
@@ -47,11 +47,11 @@ namespace Game.Scripts.Gameplay
 
         private async void SpawnCards()
         {
-            if (_player.NumberOfCart.Value >= 6)
+            if (_playerSpawner.PlayerBattle.NumberOfCart.Value >= 6)
                 return;
             
             CardStaticData[] cardsData = _staticDataService.GetAllCards();
-            int amountCards = Random.Range(1, 6 - _player.NumberOfCart.Value);
+            int amountCards = Random.Range(1, 6 - _playerSpawner.PlayerBattle.NumberOfCart.Value);
 
             for (int i = 0; i < amountCards; i++)
             {

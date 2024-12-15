@@ -15,15 +15,18 @@ namespace Gameplay.Services
     public class BattleFactory : IBattleFactory
     {
         private readonly DiContainer _container;
+        private readonly PlayerProxy _player;
         private readonly ITranslationService _translationService;
         private readonly IStaticDataService _staticDataService;
 
         public BattleFactory(
             DiContainer container, 
+            PlayerProxy player,
             ITranslationService translationService, 
             IStaticDataService staticDataService)
         {
             _container = container;
+            _player = player;
             _translationService = translationService;
             _staticDataService = staticDataService;
         }
@@ -81,7 +84,20 @@ namespace Gameplay.Services
             
             return enemy;
         }
-        
+
+        public PlayerBattleProxy CreatePlayer()
+        {
+            PlayerBattleData playerBattleData = new()
+            {
+                CurrentHealth = _player.MaxHealth.Value,
+                MaxHealth = _player.MaxHealth.Value,
+                CurrentEnergy = _player.MaxEnergy.Value,
+                MaxEnergy = _player.MaxEnergy.Value,
+            };
+
+            return new PlayerBattleProxy(playerBattleData);
+        }
+
         private T Instantiate<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : MonoBehaviour
         {
             return _container.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);

@@ -14,7 +14,7 @@ namespace Root.Services
         private readonly Dictionary<string, EnemyStaticData> _enemiesData;
         private readonly Dictionary<string, CardStaticData> _cardsData;
         public CardView Card { get; }
-        
+
         public StaticDataService()
         {
             _cardsData = Resources.LoadAll<CardStaticData>(AssetsPath.CARDS_DATA_PATH).ToDictionary(x => x.Id, x => x);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.Gameplay;
 using Gameplay.Model;
 using Gameplay.Presenters;
 using UnityEngine;
@@ -9,16 +10,16 @@ namespace Gameplay.View
 {
     public class Deck : MonoBehaviour
     {
-        private PlayerBattleProxy _player;
+        private PlayerSpawner _playerSpawner;
         
         private readonly List<CardPresenter> _cards = new();
-        
+
         public event Action<CardPresenter> CardSelectEvent;
 
         [Inject]
-        private void Construct(PlayerBattleProxy player)
+        private void Construct(PlayerSpawner playerSpawner)
         {
-            _player = player;
+            _playerSpawner = playerSpawner;
         }
         
         private void Start()
@@ -84,7 +85,7 @@ namespace Gameplay.View
                 card.SetOrderInLayer(0);
             }
             
-            _player.NumberOfCart.Value = _cards.Count;
+            _playerSpawner.PlayerBattle.NumberOfCart.Value = _cards.Count;
         }
 
         private void OnCardSelect(CardPresenter card)

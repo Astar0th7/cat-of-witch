@@ -6,9 +6,9 @@ namespace Root.Services
 {
     public interface IStaticDataService
     {
+        CardView Card { get; }
         CardStaticData GetCardData(string id);
         CardStaticData[] GetAllCards();
-        CardView Card { get; }
         EnemyStaticData GetEnemyData(string id);
         EnemyStaticData[] GetAllEnemies();
     }

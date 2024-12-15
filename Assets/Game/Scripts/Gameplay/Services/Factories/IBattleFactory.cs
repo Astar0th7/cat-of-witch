@@ -9,5 +9,6 @@ namespace Gameplay.Services
     {
         UniTask<CardPresenter> CreateCard(CardStaticData data);
         EnemyProxy CreateEnemy(EnemyStaticData enemyStaticData);
+        PlayerBattleProxy CreatePlayer();
     }
 }
