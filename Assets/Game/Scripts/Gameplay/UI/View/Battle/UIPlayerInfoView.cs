@@ -8,7 +8,7 @@ namespace Gameplay.UI.View
         [SerializeField] private TMP_Text _healthText;
         [SerializeField] private TMP_Text _energyText;
         [SerializeField] private TMP_Text _numberOfCardText;
-
+        
         public void ChangeHealth(int health)
         {
             _healthText.text = health.ToString();

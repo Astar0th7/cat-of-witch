@@ -1,6 +1,7 @@
 ﻿using Gameplay.UI.Presenter;
 using Gameplay.UI.View;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Gameplay.Installers
@@ -10,7 +11,7 @@ namespace Gameplay.Installers
         [SerializeField] private UIGameplayMenuView _gameplayMenuView;
         
         [Header("Gameplay")]
-        [SerializeField] private UIGameplayView _gameplayView;
+        [SerializeField] private UIGameplayHomeView _gameplayHomeView;
         
         [Header("Battle")]
         [SerializeField] private UIGameplayBattleView _gameplayBattleView;
@@ -27,9 +28,9 @@ namespace Gameplay.Installers
                 .NonLazy();
             
             Container
-                .BindInterfacesAndSelfTo<GameplayPresenter>()
+                .BindInterfacesAndSelfTo<GameplayHomePresenter>()
                 .AsSingle()
-                .WithArguments(_gameplayView)
+                .WithArguments(_gameplayHomeView)
                 .NonLazy();
             
             InitialBattle();

@@ -22,13 +22,13 @@ namespace Services.SaveLoad
             _listener.RemoveListener(this);
         }
 
-        void IReadListener.Read(ProgressData data)
+        public void Read(ProgressData data)
         {
             foreach (IReadListener listener in _listeners) 
                 listener.Read(data);
         }
 
-        void IWriteListener.Write(ProgressData data)
+        public void Write(ProgressData data)
         {
             foreach (IReadListener it in _listeners)
             {

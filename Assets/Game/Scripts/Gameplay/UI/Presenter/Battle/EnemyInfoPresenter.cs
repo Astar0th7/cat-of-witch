@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Model.Enemies;
+using Gameplay.Services;
 using Gameplay.UI.Presenter.CustomUI;
 using Gameplay.UI.View;
 using R3;
@@ -23,6 +24,11 @@ namespace Gameplay.UI.Presenter
             _healthSlider = new HealthSliderPresenter(_view.HealthSliderView);
         }
 
+        public void Dispose()
+        {
+            _subscription?.Dispose();
+        }
+
         public async void SetDataEnemy(EnemyProxy enemy)
         {
             _subscription.Dispose();
@@ -32,11 +38,6 @@ namespace Gameplay.UI.Presenter
             string name = await _translationService.Translate($"{_enemy.Id}_name", "Enemies");
             _view.SetName(name);
             _subscription.Add(_enemy.CurrentHealth.Subscribe(value => _healthSlider.SetHealth(value, enemy.MaxHealth)));
-        }
-
-        public void Dispose()
-        {
-            _subscription?.Dispose();
         }
     }
 }

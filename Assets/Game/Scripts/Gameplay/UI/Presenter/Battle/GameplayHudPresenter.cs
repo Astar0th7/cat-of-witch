@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Scripts.Gameplay;
 using Gameplay.Model;
+using Gameplay.Services;
 using Gameplay.UI.View;
 using R3;
 using Zenject;
@@ -27,6 +28,11 @@ namespace Gameplay.UI.Presenter
                 _playerSpawner.PlayerSpawnedEvent += OnPlayerSpawned;
         }
 
+        public void Dispose()
+        {
+            _subscriptions?.Dispose();
+        }
+
         private void OnPlayerSpawned(PlayerBattleProxy playerBattle)
         {
             _playerSpawner.PlayerSpawnedEvent -= OnPlayerSpawned;
@@ -34,11 +40,6 @@ namespace Gameplay.UI.Presenter
             _subscriptions.Add(playerBattle.CurrentHealth.Subscribe(value => _view.ChangeHealth(value)));
             _subscriptions.Add(playerBattle.CurrentEnergy.Subscribe(value => _view.ChangeEnergy(value)));
             _subscriptions.Add(playerBattle.NumberOfCart.Subscribe(value => _view.ChangeNumberOfCard(value)));
-        }
-
-        public void Dispose()
-        {
-            _subscriptions?.Dispose();
         }
     }
 }

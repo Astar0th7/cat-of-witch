@@ -64,6 +64,11 @@ namespace Gameplay.Presenters
             return true;
         }
 
+        public void Remove()
+        {
+            _view.Remove();
+        }
+
         private void OnCardSelect()
         {
             CardSelectEvent?.Invoke(this);

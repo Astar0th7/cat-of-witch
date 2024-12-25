@@ -18,13 +18,21 @@ namespace Gameplay.Installers
             Container
                 .BindInterfacesTo<BattleFactory>()
                 .AsSingle();
-            
+
+            Container
+                .BindInterfacesAndSelfTo<CardSpawner>()
+                .AsSingle();
+
             Container
                 .BindInterfacesAndSelfTo<PlayerSpawner>()
                 .AsSingle();
 
             Container
                 .BindInterfacesAndSelfTo<EnemySpawner>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<GameplayStateService>()
                 .AsSingle();
 
             Container

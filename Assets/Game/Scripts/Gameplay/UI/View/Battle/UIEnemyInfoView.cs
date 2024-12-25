@@ -9,7 +9,7 @@ namespace Gameplay.UI.View
         [SerializeField] private UIHealthSliderView _healthSliderView;
         
         public UIHealthSliderView HealthSliderView => _healthSliderView;
-        
+
         public void SetName(string value)
         {
             _nameText.text = value;

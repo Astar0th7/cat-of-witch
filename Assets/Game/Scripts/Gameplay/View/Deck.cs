@@ -1,36 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.Gameplay;
-using Gameplay.Model;
 using Gameplay.Presenters;
+using Gameplay.Services;
+using Gameplay.Spawners;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Gameplay.View
 {
-    public class Deck : MonoBehaviour
+    public class Deck : MonoBehaviour, IHomeGameplayListener, IBattleGameplayListener
     {
         private PlayerSpawner _playerSpawner;
-        
+        private CardSpawner _cardSpawner;
+
         private readonly List<CardPresenter> _cards = new();
+        private Camera _mainCamera;
+        private BattleZone _battleZone;
 
         public event Action<CardPresenter> CardSelectEvent;
 
         [Inject]
-        private void Construct(PlayerSpawner playerSpawner)
+        private void Construct(PlayerSpawner playerSpawner, CardSpawner cardSpawner, BattleZone battleZone)
         {
+            _battleZone = battleZone;
+            _cardSpawner = cardSpawner;
             _playerSpawner = playerSpawner;
         }
-        
+
         private void Start()
         {
-            Camera camera = Camera.main;
-            Vector3 screenBottomLeft = new(0, 0, camera.nearClipPlane);
-            Vector3 bottomLeft = camera.ScreenToWorldPoint(screenBottomLeft);
+            _mainCamera = Camera.main;
+            Vector3 screenBottomLeft = new(0, 0, _mainCamera.nearClipPlane);
+            Vector3 bottomLeft = _mainCamera.ScreenToWorldPoint(screenBottomLeft);
             bottomLeft.z = 0;
             transform.position = bottomLeft;
-
             Refresh();
+            
+            _battleZone.EnemyEndStepEvent += OnEnemyEndStep;
+        }
+
+        private void OnDestroy()
+        {
+            _battleZone.EnemyEndStepEvent -= OnEnemyEndStep;
+        }
+
+        public async void OnBattleGameplay()
+        {
+            CardPresenter[] cards = await _cardSpawner.SpawnCards(3);
+            foreach (CardPresenter card in cards)
+                AddCard(card);
+            
+            Refresh();
+        }
+
+        public void OnHomeGameplay()
+        {
+            foreach (CardPresenter card in _cards)
+            {
+                card.CardApplyEvent -= DeleteCard;
+                card.CardSelectEvent -= OnCardSelect;
+                card.Remove();
+            }
+            
+            _cards.Clear();
         }
 
         public void AddCard(CardPresenter card)
@@ -85,13 +119,25 @@ namespace Gameplay.View
                 card.SetOrderInLayer(0);
             }
             
-            _playerSpawner.PlayerBattle.NumberOfCart.Value = _cards.Count;
+            if (_playerSpawner.PlayerBattle != null)
+                _playerSpawner.PlayerBattle.NumberOfCart.Value = _cards.Count;
         }
 
         private void OnCardSelect(CardPresenter card)
         {
             DeleteCard(card);
             CardSelectEvent?.Invoke(card);
+        }
+
+        private async void OnEnemyEndStep()
+        {
+            if (_cards.Count >= 6)
+                return;
+
+            int amount = Random.Range(1, 6 - _cards.Count + 1);
+            CardPresenter[] cards = await _cardSpawner.SpawnCards(amount);
+            foreach (CardPresenter card in cards)
+                AddCard(card);
         }
     }
 }

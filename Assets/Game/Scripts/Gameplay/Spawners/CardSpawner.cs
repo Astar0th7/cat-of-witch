@@ -1,65 +1,37 @@
-﻿using Gameplay.Services;
+﻿using Cysharp.Threading.Tasks;
+using Gameplay.Services;
 using Gameplay.Model;
 using Gameplay.Presenters;
-using Gameplay.Spawners;
-using Gameplay.View;
 using Root.Services;
-using UnityEngine;
-using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Game.Scripts.Gameplay
 {
-    public class CardSpawner : MonoBehaviour
+    public class CardSpawner
     {
-        private Deck _deck;
-        private BattleZone _battleZone;
-        private PlayerSpawner _playerSpawner;
-        private IStaticDataService _staticDataService;
-        private IBattleFactory _factory;
-
-        [Inject]
-        private void Construct(
-            Deck deck, 
-            BattleZone battleZone,
-            PlayerSpawner playerSpawner,
-            IStaticDataService staticDataService, 
-            IBattleFactory factory)
+        private readonly IStaticDataService _staticDataService;
+        private readonly IBattleFactory _factory;
+        
+        private CardSpawner(IStaticDataService staticDataService, IBattleFactory factory)
         {
-            _deck = deck;
-            _battleZone = battleZone;
-            _playerSpawner = playerSpawner;
             _staticDataService = staticDataService;
             _factory = factory;
         }
-        
-        private void Start()
-        {
-            _battleZone.EnemyEndStepEvent += OnEnemyEndStep;
 
-            SpawnCards();
-        }
-
-        private void OnEnemyEndStep()
+        public async UniTask<CardPresenter[]> SpawnCards(int amount)
         {
-            SpawnCards();
-        }
-
-        private async void SpawnCards()
-        {
-            if (_playerSpawner.PlayerBattle.NumberOfCart.Value >= 6)
-                return;
-            
+            CardPresenter[] cards = new CardPresenter[amount];
             CardStaticData[] cardsData = _staticDataService.GetAllCards();
-            int amountCards = Random.Range(1, 6 - _playerSpawner.PlayerBattle.NumberOfCart.Value);
 
-            for (int i = 0; i < amountCards; i++)
+            for (int i = 0; i < amount; i++)
             {
                 int index = Random.Range(0, cardsData.Length);
                 CardStaticData cardData = cardsData[index];
                 CardPresenter card = await _factory.CreateCard(cardData);
-                _deck.AddCard(card);
+                cards[i] = card;
             }
+
+            return cards;
         }
     }
 }

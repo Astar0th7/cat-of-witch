@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Gameplay.Model.Enemies
 {
@@ -12,6 +14,8 @@ namespace Gameplay.Model.Enemies
         public string Id { get; }
         public int MaxHealth { get; }
         public ReactiveProperty<int> CurrentHealth { get; }
+        
+        public event Action EnemyDieEvent;
         
         public EnemyProxy(EnemyData originData, List<Ability> abilities)
         {
@@ -27,6 +31,9 @@ namespace Gameplay.Model.Enemies
         public void TakeDamage(int damage)
         {
             CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damage);
+            
+            if (CurrentHealth.Value <= 0)
+                EnemyDieEvent?.Invoke();
         }
 
         public void Heal(int health)
