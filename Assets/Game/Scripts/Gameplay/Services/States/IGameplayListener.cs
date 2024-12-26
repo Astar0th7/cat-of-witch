@@ -1,6 +1,6 @@
 ﻿namespace Gameplay.Services
 {
-    public interface IGameplayListener
+    public interface IGameplayListener 
     {
         
     }

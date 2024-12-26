@@ -2,6 +2,7 @@
 using Game.Scripts.Gameplay;
 using Gameplay.Model;
 using Gameplay.Services;
+using Gameplay.UI.Presenter.CustomUI;
 using Gameplay.UI.View;
 using R3;
 using Zenject;
@@ -12,7 +13,10 @@ namespace Gameplay.UI.Presenter
     {
         private readonly UIPlayerInfoView _view;
         private readonly PlayerSpawner _playerSpawner;
-        private readonly CompositeDisposable _subscriptions = new(); 
+        private CompositeDisposable _subscriptions = new(); 
+        
+        private SliderPresenter _healthSlider;
+        private SliderPresenter _energySlider;
         
         public GameplayHUDPresenter(UIPlayerInfoView view, PlayerSpawner playerSpawner)
         {
@@ -22,24 +26,27 @@ namespace Gameplay.UI.Presenter
 
         public void Initialize()
         {
-            if (_playerSpawner.PlayerBattle != null)
-                OnPlayerSpawned(_playerSpawner.PlayerBattle);
-            else 
-                _playerSpawner.PlayerSpawnedEvent += OnPlayerSpawned;
+            _healthSlider = new SliderPresenter(_view.HealthSlider);
+            _energySlider = new SliderPresenter(_view.EnergySlider);
+            
+            _playerSpawner.PlayerSpawnedEvent += OnPlayerSpawned;
         }
 
         public void Dispose()
         {
+            _playerSpawner.PlayerSpawnedEvent -= OnPlayerSpawned;
             _subscriptions?.Dispose();
         }
 
         private void OnPlayerSpawned(PlayerBattleProxy playerBattle)
         {
-            _playerSpawner.PlayerSpawnedEvent -= OnPlayerSpawned;
+            _subscriptions.Dispose();
+            _subscriptions = new CompositeDisposable();
             
-            _subscriptions.Add(playerBattle.CurrentHealth.Subscribe(value => _view.ChangeHealth(value)));
-            _subscriptions.Add(playerBattle.CurrentEnergy.Subscribe(value => _view.ChangeEnergy(value)));
-            _subscriptions.Add(playerBattle.NumberOfCart.Subscribe(value => _view.ChangeNumberOfCard(value)));
+            _subscriptions.Add(playerBattle.CurrentHealth
+                .Subscribe(value => _healthSlider.SetValue(value, playerBattle.MaxHealth.CurrentValue)));
+            _subscriptions.Add(playerBattle.CurrentEnergy
+                .Subscribe(value => _energySlider.SetValue(value, playerBattle.MaxEnergy.CurrentValue)));
         }
     }
 }

@@ -5,23 +5,10 @@ namespace Gameplay.UI.View
 {
     public class UIPlayerInfoView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _healthText;
-        [SerializeField] private TMP_Text _energyText;
-        [SerializeField] private TMP_Text _numberOfCardText;
-        
-        public void ChangeHealth(int health)
-        {
-            _healthText.text = health.ToString();
-        }
+        [SerializeField] private UISliderView _healthSlider;
+        [SerializeField] private UISliderView _energySlider;
 
-        public void ChangeEnergy(int energy)
-        {
-            _energyText.text = energy.ToString();
-        }
-
-        public void ChangeNumberOfCard(int numberOfCard)
-        {
-            _numberOfCardText.text = numberOfCard.ToString();
-        }
+        public UISliderView HealthSlider => _healthSlider;
+        public UISliderView EnergySlider => _energySlider;
     }
 }

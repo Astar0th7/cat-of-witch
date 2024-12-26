@@ -4,6 +4,7 @@ using Game.Scripts.Gameplay;
 using Gameplay.Presenters;
 using Gameplay.Services;
 using Gameplay.Spawners;
+using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
