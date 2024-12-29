@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.Gameplay;
 using Gameplay.Presenters;
 using Gameplay.Services;
@@ -33,9 +34,8 @@ namespace Gameplay.View
         private void Start()
         {
             _mainCamera = Camera.main;
-            Vector3 screenBottomLeft = new(0, 0, _mainCamera.nearClipPlane);
-            Vector3 bottomLeft = _mainCamera.ScreenToWorldPoint(screenBottomLeft);
-            bottomLeft.z = 0;
+            Vector3 targetPosition = new(0.5f, 0, 0);
+            Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(targetPosition);
             transform.position = bottomLeft;
             Refresh();
             
@@ -98,30 +98,33 @@ namespace Gameplay.View
 
         private void Refresh()
         {
-            for (int i = 0; i < _cards.Count; i++)
-            {
-                CardPresenter card = _cards[i];
-                Vector3 targetPosition = transform.position;
-                
-                if (i == 0)
-                {
-                    targetPosition.x += card.Width / 2 + 0.1f;
-                }
-                else
-                {
-                    CardPresenter previousCard = _cards[i - 1];
-                    targetPosition.x = previousCard.TargetPosition.x + (card.Width + 0.1f);
-                }
-                
-                targetPosition.y += card.Height / 2 + 0.1f;
-                targetPosition.z = 0;
+            int cardCount = _cards.Count;
+            if (cardCount == 0) 
+                return;
+            
+            float spacing = _cards[0].Width / 1.5f;
+            float totalWidth = (cardCount - 1) * spacing;
+            float startX = -totalWidth / 2;
 
+            for (int i = 0; i < cardCount; i++)
+            {
+                float xPos = startX + i * spacing;
+                float yPos = Mathf.Pow(xPos / 3.5f, 2) * -1;
+                float rotationAngle = cardCount == 1 ? 0 : Mathf.Lerp(15, -15, (float)i / (cardCount - 1));
+                CardPresenter card = _cards[i];
+
+                Vector3 targetPosition = new Vector3(xPos, yPos, 0) + transform.position + (card.Height * 0.5f * Vector3.up);
+                targetPosition.z = 0;
                 card.SetTargetPosition(targetPosition);
+                
+                Quaternion targetRotate = Quaternion.Euler(0, 0, Mathf.Clamp(rotationAngle, -90f, 90f));
+                card.SetTargetRotation(targetRotate);
                 card.SetOrderInLayer(0);
             }
             
-            if (_playerSpawner.PlayerBattle != null)
-                _playerSpawner.PlayerBattle.NumberOfCart.Value = _cards.Count;
+            _cards.Sort((a, b) => a.TargetPosition.x.CompareTo(b.TargetPosition.x));
+            for (int i = 0; i < _cards.Count; i++) 
+                _cards[i].SetOrderInLayer(i);
         }
 
         private void OnCardSelect(CardPresenter card)

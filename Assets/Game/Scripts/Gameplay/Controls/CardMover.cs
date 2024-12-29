@@ -2,7 +2,6 @@
 using Gameplay.Spawners;
 using Gameplay.View;
 using Root.Services.InputService;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -60,7 +59,7 @@ namespace Game.Scripts.Gameplay.Controls
             Vector3 targetPosition = _camera.ScreenToWorldPoint(_mousePosition);
             targetPosition.z = 0f;
             _card.SetTargetPosition(targetPosition);
-            _card.SetOrderInLayer(10);
+            _card.SetTargetRotation(Quaternion.identity);
         }
 
         private void OnMouseButtonDown()
@@ -90,6 +89,7 @@ namespace Game.Scripts.Gameplay.Controls
         private void OnCardSelectEvent(CardPresenter card)
         {
             _card = card;
+            _card.SetOrderInLayer(10);
         }
     }
 }

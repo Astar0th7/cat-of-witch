@@ -11,6 +11,7 @@ namespace Gameplay.Model
         public CardType Type => _data.Type;
 
         public ReactiveProperty<Vector3> TargetPosition { get; set; } = new(Vector3.zero);
+        public ReactiveProperty<Quaternion> TargetRotation { get; set; } = new(Quaternion.identity);
 
         public CardModel(CardStaticData data)
         {

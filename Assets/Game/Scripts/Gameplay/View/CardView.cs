@@ -19,6 +19,7 @@ namespace Gameplay.View
         [SerializeField] private SpriteRenderer _otherStatsSprite;
 
         private Vector3 _targetPosition;
+        private Quaternion _targetRotate;
 
         public float Width => _collider2D.size.x;
         public float Height => _collider2D.size.y;
@@ -31,6 +32,7 @@ namespace Gameplay.View
                 return;
             
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * 10f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotate, Time.fixedDeltaTime * 10f);
         }
 
         public void SetBaseInfo(Sprite backgroundSprite, Sprite iconSprite, string nameCard, string description, int costAmount)
@@ -57,9 +59,14 @@ namespace Gameplay.View
             }
         }
 
-        public void SetTarget(Vector3 targetPosition)
+        public void SetTargetPosition(Vector3 targetPosition)
         {
             _targetPosition = targetPosition;
+        }
+        
+        public void SetTargetRotation(Quaternion rotate)
+        {
+            _targetRotate = rotate;
         }
 
         public void SetOrderInLayer(int order)

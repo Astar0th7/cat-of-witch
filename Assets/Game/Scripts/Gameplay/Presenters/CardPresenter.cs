@@ -13,7 +13,7 @@ namespace Gameplay.Presenters
         private readonly CardView _view;
         private readonly CardModel _model;
         
-        private IDisposable _disposable;
+        private CompositeDisposable _subscriptions;
 
         public Vector3 TargetPosition => _model.TargetPosition.Value;
         public Vector3 Position => _view.transform.position;
@@ -32,20 +32,27 @@ namespace Gameplay.Presenters
         public void Initialize()
         {
             _view.CardSelectEvent += OnCardSelect;
-            _disposable = _model.TargetPosition.Subscribe(value => _view.SetTarget(value));
+            _subscriptions = new CompositeDisposable();
+            _subscriptions.Add(_model.TargetPosition.Subscribe(value => _view.SetTargetPosition(value)));
+            _subscriptions.Add(_model.TargetRotation.Subscribe(value => _view.SetTargetRotation(value)));
         }
 
         public void Dispose()
         {
-            _disposable?.Dispose();
+            _subscriptions?.Dispose();
         }
-
+        
         public void SetTargetPosition(Vector3 targetPosition)
         {
             if (Vector3.SqrMagnitude(targetPosition - _model.TargetPosition.Value) < 0.01f)
                 return;
             
             _model.TargetPosition.Value = targetPosition;
+        }
+        
+        public void SetTargetRotation(Quaternion targetRotation)
+        {
+            _model.TargetRotation.Value = targetRotation;
         }
 
         public void SetOrderInLayer(int order)
