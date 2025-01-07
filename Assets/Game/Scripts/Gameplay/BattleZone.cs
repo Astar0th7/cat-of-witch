@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Scripts.Gameplay;
 using Gameplay.Model;
+using Gameplay.Model.Battle;
 using Gameplay.Model.Enemies;
 using Gameplay.Presenters;
 using Gameplay.Services;
@@ -17,12 +18,11 @@ namespace Gameplay.Spawners
         private PlayerSpawner _playerSpawner;
         private BattleHudPresenter _battleHudPresenter;
         private EnemySpawner _enemySpawner;
+        private BattleProxy _battleProxy;
         private IGameplayStateService _gameplayStateService;
 
         private EnemyProxy _enemy;
         private PlayerBattleProxy _playerBattle;
-
-        public event Action EnemyEndStepEvent;
         
         [Inject]
         private void Construct(
@@ -30,12 +30,14 @@ namespace Gameplay.Spawners
             PlayerSpawner playerSpawner,
             BattleHudPresenter battleHudPresenter,
             EnemySpawner enemySpawner,
+            BattleProxy battleProxy,
             IGameplayStateService gameplayStateService)
         {
             _deck = deck;
             _playerSpawner = playerSpawner;
             _battleHudPresenter = battleHudPresenter;
             _enemySpawner = enemySpawner;
+            _battleProxy = battleProxy;
             _gameplayStateService = gameplayStateService;
         }
 
@@ -76,7 +78,7 @@ namespace Gameplay.Spawners
             _enemy.UseAbility(_playerBattle);
 
             _playerBattle.AddEnergy(3);
-            EnemyEndStepEvent?.Invoke();
+            _battleProxy.EndRound();
         }
 
         private void OnEnemyDie()

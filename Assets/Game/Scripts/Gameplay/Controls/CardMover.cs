@@ -5,7 +5,7 @@ using Root.Services.InputService;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Gameplay.Controls
+namespace Gameplay.Controls
 {
     public class CardMover : MonoBehaviour
     {
@@ -32,16 +32,16 @@ namespace Game.Scripts.Gameplay.Controls
             _camera = Camera.main;
 
             _inputService.Enable();
-            _inputService.MouseButtonDownEvent += OnMouseButtonDown;
-            _inputService.MouseButtonUpEvent += OnMouseButtonUp;
+            _inputService.LeftMouseButtonDownEvent += OnMouseButtonDown;
+            _inputService.LeftMouseButtonUpEvent += OnMouseButtonUp;
             
             _deck.CardSelectEvent += OnCardSelectEvent;
         }
 
         private void OnDestroy()
         {
-            _inputService.MouseButtonDownEvent -= OnMouseButtonDown;
-            _inputService.MouseButtonUpEvent -= OnMouseButtonUp;
+            _inputService.LeftMouseButtonDownEvent -= OnMouseButtonDown;
+            _inputService.LeftMouseButtonUpEvent -= OnMouseButtonUp;
             
             _deck.CardSelectEvent -= OnCardSelectEvent;
         }

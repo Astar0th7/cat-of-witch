@@ -1,6 +1,6 @@
 ﻿using Game.Scripts.Gameplay;
+using Gameplay.Model.Battle;
 using Gameplay.Services;
-using Gameplay.Model;
 using Gameplay.Spawners;
 using Gameplay.View;
 using UnityEngine;
@@ -15,6 +15,11 @@ namespace Gameplay.Installers
         
         public override void InstallBindings()
         {
+            Container
+                .BindInterfacesAndSelfTo<BattleProxy>()
+                .AsSingle()
+                .WithArguments(new BattleModel());
+            
             Container
                 .BindInterfacesTo<BattleFactory>()
                 .AsSingle();

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Game.Scripts.Gameplay;
+using Gameplay.Model.Battle;
 using Gameplay.Presenters;
 using Gameplay.Services;
 using Gameplay.Spawners;
-using NaughtyAttributes;
+using Gameplay.UI.Presenter;
+using R3;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -14,21 +15,22 @@ namespace Gameplay.View
 {
     public class Deck : MonoBehaviour, IHomeGameplayListener, IBattleGameplayListener
     {
-        private PlayerSpawner _playerSpawner;
         private CardSpawner _cardSpawner;
+        private CardInfoPresenter _cardInfoPresenter;
+        private BattleProxy _battleProxy;
 
         private readonly List<CardPresenter> _cards = new();
         private Camera _mainCamera;
-        private BattleZone _battleZone;
+        private IDisposable _stepsDisposable;
 
         public event Action<CardPresenter> CardSelectEvent;
 
         [Inject]
-        private void Construct(PlayerSpawner playerSpawner, CardSpawner cardSpawner, BattleZone battleZone)
+        private void Construct(CardSpawner cardSpawner, CardInfoPresenter cardInfoPresenter, BattleProxy battleProxy)
         {
-            _battleZone = battleZone;
             _cardSpawner = cardSpawner;
-            _playerSpawner = playerSpawner;
+            _cardInfoPresenter = cardInfoPresenter;
+            _battleProxy = battleProxy;
         }
 
         private void Start()
@@ -37,14 +39,14 @@ namespace Gameplay.View
             Vector3 targetPosition = new(0.5f, 0, 0);
             Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(targetPosition);
             transform.position = bottomLeft;
+            _battleProxy.RoundEndedEvent += PeekCards;
+
             Refresh();
-            
-            _battleZone.EnemyEndStepEvent += OnEnemyEndStep;
         }
 
         private void OnDestroy()
         {
-            _battleZone.EnemyEndStepEvent -= OnEnemyEndStep;
+            _battleProxy.RoundEndedEvent -= PeekCards;
         }
 
         public async void OnBattleGameplay()
@@ -62,6 +64,7 @@ namespace Gameplay.View
             {
                 card.CardApplyEvent -= DeleteCard;
                 card.CardSelectEvent -= OnCardSelect;
+                card.CardClickedEvent -= OnCardClicked;
                 card.Remove();
             }
             
@@ -78,11 +81,12 @@ namespace Gameplay.View
 
             card.CardApplyEvent += DeleteCard;
             card.CardSelectEvent += OnCardSelect;
+            card.CardClickedEvent += OnCardClicked;
             _cards.Add(card);
             Refresh();
         }
 
-        public void DeleteCard(CardPresenter card)
+        private void DeleteCard(CardPresenter card)
         {
             if (_cards.Contains(card) == false)
             {
@@ -92,6 +96,7 @@ namespace Gameplay.View
             
             card.CardApplyEvent -= DeleteCard;
             card.CardSelectEvent -= OnCardSelect;
+            card.CardClickedEvent -= OnCardClicked;
             _cards.Remove(card);
             Refresh();
         }
@@ -127,13 +132,7 @@ namespace Gameplay.View
                 _cards[i].SetOrderInLayer(i);
         }
 
-        private void OnCardSelect(CardPresenter card)
-        {
-            DeleteCard(card);
-            CardSelectEvent?.Invoke(card);
-        }
-
-        private async void OnEnemyEndStep()
+        private async void PeekCards()
         {
             if (_cards.Count >= 6)
                 return;
@@ -142,6 +141,17 @@ namespace Gameplay.View
             CardPresenter[] cards = await _cardSpawner.SpawnCards(amount);
             foreach (CardPresenter card in cards)
                 AddCard(card);
+        }
+
+        private void OnCardSelect(CardPresenter card)
+        {
+            DeleteCard(card);
+            CardSelectEvent?.Invoke(card);
+        }
+
+        private void OnCardClicked(CardPresenter card)
+        {
+            _cardInfoPresenter.CardClicked(card);
         }
     }
 }

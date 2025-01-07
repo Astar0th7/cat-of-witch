@@ -6,8 +6,9 @@ namespace Root.Services.InputService
 {
     public class DesktopInputService : IInputService
     {
-        public event Action MouseButtonDownEvent;
-        public event Action MouseButtonUpEvent;
+        public event Action LeftMouseButtonDownEvent;
+        public event Action LeftMouseButtonUpEvent;
+        public event Action RightMouseButtonClickedEvent;
 
         private readonly DesktopInputMap _inputMap;
 
@@ -17,8 +18,9 @@ namespace Root.Services.InputService
         {
             _inputMap = new DesktopInputMap();
             
-            _inputMap.Mouse.Drag.started += OnMouseButtonDown;
-            _inputMap.Mouse.Drag.canceled += OnMouseButtonUp;
+            _inputMap.Mouse.Drag.started += OnLeftMouseButtonDown;
+            _inputMap.Mouse.Drag.canceled += OnLeftMouseButtonUp;
+            _inputMap.Mouse.Info.performed += OnRightMouseButtonClicked;
         }
 
         public void Enable()
@@ -31,14 +33,19 @@ namespace Root.Services.InputService
             _inputMap.Disable();
         }
 
-        private void OnMouseButtonDown(InputAction.CallbackContext context)
+        private void OnLeftMouseButtonDown(InputAction.CallbackContext context)
         {
-            MouseButtonDownEvent?.Invoke();
+            LeftMouseButtonDownEvent?.Invoke();
         }
 
-        private void OnMouseButtonUp(InputAction.CallbackContext context)
+        private void OnLeftMouseButtonUp(InputAction.CallbackContext context)
         {
-            MouseButtonUpEvent?.Invoke();
+            LeftMouseButtonUpEvent?.Invoke();
+        }
+
+        private void OnRightMouseButtonClicked(InputAction.CallbackContext context)
+        {
+            RightMouseButtonClickedEvent?.Invoke();
         }
     }
 }

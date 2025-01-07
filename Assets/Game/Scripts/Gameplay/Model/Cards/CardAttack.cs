@@ -5,11 +5,11 @@ namespace Gameplay.Model
 {
     public class CardAttack : CardModel
     {
-        public CardAttack(CardStaticData data) : base(data) {}
+        public CardAttack(CardStaticData originalData) : base(originalData) {}
 
         protected override void Use(PlayerBattleProxy player, EnemyProxy enemy)
         {
-            enemy.TakeDamage(_data.Damage);
+            enemy.TakeDamage(_originalData.Damage);
         }
     }
 }

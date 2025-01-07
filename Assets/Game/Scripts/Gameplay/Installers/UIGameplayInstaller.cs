@@ -1,7 +1,6 @@
 ﻿using Gameplay.UI.Presenter;
 using Gameplay.UI.View;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Gameplay.Installers
@@ -18,6 +17,7 @@ namespace Gameplay.Installers
         [SerializeField] private UIPlayerInfoView _gameplayHUDView;
         [SerializeField] private UIEnemyInfoView _enemyInfoView;
         [SerializeField] private UIBattleHudView _battleHudView;
+        [SerializeField] private UICardInfoView _cardInfoView;
 
         public override void InstallBindings()
         {
@@ -60,6 +60,12 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<BattleHudPresenter>()
                 .AsSingle()
                 .WithArguments(_battleHudView)
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<CardInfoPresenter>()
+                .AsSingle()
+                .WithArguments(_cardInfoView)
                 .NonLazy();
         }
     }

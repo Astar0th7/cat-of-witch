@@ -4,11 +4,11 @@ namespace Gameplay.Model
 {
     public class CardHealing : CardModel
     {
-        public CardHealing(CardStaticData data) : base(data) {}
+        public CardHealing(CardStaticData originalData) : base(originalData) {}
 
         protected override void Use(PlayerBattleProxy player, EnemyProxy enemy)
         {
-            player.Healing(_data.Health);
+            player.Healing(_originalData.Health);
         }
     }
 }

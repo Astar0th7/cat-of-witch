@@ -25,6 +25,7 @@ namespace Gameplay.View
         public float Height => _collider2D.size.y;
 
         public event Action CardSelectEvent;
+        public event Action CardClickedEvent;
 
         private void FixedUpdate()
         {
@@ -88,6 +89,11 @@ namespace Gameplay.View
         public void Select()
         {
             CardSelectEvent?.Invoke();
+        }
+
+        public void OnClicked()
+        {
+            CardClickedEvent?.Invoke();
         }
     }
 }
