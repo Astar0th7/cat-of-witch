@@ -1,28 +1,30 @@
-﻿using R3;
+﻿using Model.Entities;
+using R3;
 using UnityEngine;
 
 namespace Gameplay.Model
 {
-    public class PlayerBattleProxy
+    public class PlayerBattleProxy : ITakeDamage, IHealing, ITimingEffect
     {
+        public int MaxHealth { get; }
+        public int MaxEnergy { get; }
         public ReactiveProperty<int> CurrentHealth { get; }
-        public ReactiveProperty<int> MaxHealth { get; }
         public ReactiveProperty<int> CurrentEnergy { get; }
-        public ReactiveProperty<int> MaxEnergy { get; }
         public ReactiveProperty<int> NumberOfCart { get; }
-        
+        public TimingEffect TimingEffects { get; }
+
         public PlayerBattleProxy(PlayerBattleData playerBattleData)
         {
+            MaxHealth = playerBattleData.MaxHealth;
+            MaxEnergy = playerBattleData.MaxEnergy;
+
             CurrentHealth = new ReactiveProperty<int>(playerBattleData.CurrentHealth);
-            MaxHealth = new ReactiveProperty<int>(playerBattleData.MaxHealth);
             CurrentEnergy = new ReactiveProperty<int>(playerBattleData.CurrentEnergy);
-            MaxEnergy = new ReactiveProperty<int>(playerBattleData.MaxEnergy);
             NumberOfCart = new ReactiveProperty<int>(playerBattleData.NumberOfCart);
+            TimingEffects = new TimingEffect(); 
             
             CurrentHealth.Skip(1).Subscribe(value => playerBattleData.CurrentHealth = value);
-            MaxHealth.Skip(1).Subscribe(value => playerBattleData.MaxHealth = value);
             CurrentEnergy.Skip(1).Subscribe(value => playerBattleData.CurrentEnergy = value);
-            MaxEnergy.Skip(1).Subscribe(value => playerBattleData.MaxEnergy = value);
             NumberOfCart.Skip(1).Subscribe(value => playerBattleData.NumberOfCart = value);
         }
 
@@ -36,14 +38,14 @@ namespace Gameplay.Model
 
         }
 
-        public void Healing(int health)
+        public void Heal(int health)
         {
-            CurrentHealth.Value = Mathf.Min(MaxHealth.Value, CurrentHealth.Value + health);
+            CurrentHealth.Value = Mathf.Min(MaxHealth, CurrentHealth.Value + health);
         }
 
         public void AddEnergy(int energy)
         {
-            CurrentEnergy.Value = Mathf.Min(MaxEnergy.Value, MaxEnergy.Value + energy);
+            CurrentEnergy.Value = Mathf.Min(MaxEnergy, CurrentEnergy.Value + energy);
         }
 
         public void TakeDamage(int damage)

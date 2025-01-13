@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using Model.Entities;
 using R3;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Gameplay.Model.Enemies
 {
-    public class EnemyProxy
+    public class EnemyProxy : ITakeDamage, IHealing, ITimingEffect
     {
         private readonly EnemyData _originData;
         private readonly List<Ability> _abilities;
         
+        public event Action EnemyDieEvent;
+
+        public TimingEffect TimingEffects { get; }
         public string Id { get; }
         public int MaxHealth { get; }
         public ReactiveProperty<int> CurrentHealth { get; }
-        
-        public event Action EnemyDieEvent;
         
         public EnemyProxy(EnemyData originData, List<Ability> abilities)
         {
@@ -23,7 +25,8 @@ namespace Gameplay.Model.Enemies
             MaxHealth = originData.MaxHealth;
             _originData = originData;
             _abilities = abilities;
-            
+
+            TimingEffects = new TimingEffect();
             CurrentHealth = new ReactiveProperty<int>(_originData.CurrentHealth);
             CurrentHealth.Skip(1).Subscribe(value => _originData.CurrentHealth = value);
         }

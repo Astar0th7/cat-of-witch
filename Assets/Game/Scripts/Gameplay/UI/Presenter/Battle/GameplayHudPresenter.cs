@@ -13,11 +13,12 @@ namespace Gameplay.UI.Presenter
     {
         private readonly UIPlayerInfoView _view;
         private readonly PlayerSpawner _playerSpawner;
-        private CompositeDisposable _subscriptions = new(); 
         
         private SliderPresenter _healthSlider;
         private SliderPresenter _energySlider;
         
+        private CompositeDisposable _subscriptions = new();
+
         public GameplayHUDPresenter(UIPlayerInfoView view, PlayerSpawner playerSpawner)
         {
             _view = view;
@@ -44,9 +45,9 @@ namespace Gameplay.UI.Presenter
             _subscriptions = new CompositeDisposable();
             
             _subscriptions.Add(playerBattle.CurrentHealth
-                .Subscribe(value => _healthSlider.SetValue(value, playerBattle.MaxHealth.CurrentValue)));
+                .Subscribe(value => _healthSlider.SetValue(value, playerBattle.MaxHealth)));
             _subscriptions.Add(playerBattle.CurrentEnergy
-                .Subscribe(value => _energySlider.SetValue(value, playerBattle.MaxEnergy.CurrentValue)));
+                .Subscribe(value => _energySlider.SetValue(value, playerBattle.MaxEnergy)));
         }
     }
 }

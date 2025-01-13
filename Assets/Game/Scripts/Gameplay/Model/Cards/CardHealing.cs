@@ -8,7 +8,7 @@ namespace Gameplay.Model
 
         protected override void Use(PlayerBattleProxy player, EnemyProxy enemy)
         {
-            player.Healing(_originalData.Health);
+            player.Heal(_originalData.Health);
         }
     }
 }
