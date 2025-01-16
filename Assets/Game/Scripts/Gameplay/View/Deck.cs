@@ -17,7 +17,7 @@ namespace Gameplay.View
     {
         private CardSpawner _cardSpawner;
         private CardInfoPresenter _cardInfoPresenter;
-        private BattleProxy _battleProxy;
+        private Battle _battle;
 
         private readonly List<CardPresenter> _cards = new();
         private Camera _mainCamera;
@@ -26,11 +26,11 @@ namespace Gameplay.View
         public event Action<CardPresenter> CardSelectEvent;
 
         [Inject]
-        private void Construct(CardSpawner cardSpawner, CardInfoPresenter cardInfoPresenter, BattleProxy battleProxy)
+        private void Construct(CardSpawner cardSpawner, CardInfoPresenter cardInfoPresenter, Battle battle)
         {
             _cardSpawner = cardSpawner;
             _cardInfoPresenter = cardInfoPresenter;
-            _battleProxy = battleProxy;
+            _battle = battle;
         }
 
         private void Start()
@@ -39,14 +39,14 @@ namespace Gameplay.View
             Vector3 targetPosition = new(0.5f, 0, 0);
             Vector3 bottomLeft = _mainCamera.ViewportToWorldPoint(targetPosition);
             transform.position = bottomLeft;
-            _battleProxy.RoundEndedEvent += PeekCards;
+            _battle.RoundEndedEvent += PeekCards;
 
             Refresh();
         }
 
         private void OnDestroy()
         {
-            _battleProxy.RoundEndedEvent -= PeekCards;
+            _battle.RoundEndedEvent -= PeekCards;
         }
 
         public async void OnBattleGameplay()

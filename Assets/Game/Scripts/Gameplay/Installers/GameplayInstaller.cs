@@ -16,11 +16,6 @@ namespace Gameplay.Installers
         public override void InstallBindings()
         {
             Container
-                .BindInterfacesAndSelfTo<BattleProxy>()
-                .AsSingle()
-                .WithArguments(new BattleModel());
-            
-            Container
                 .BindInterfacesTo<BattleFactory>()
                 .AsSingle();
 
@@ -35,9 +30,14 @@ namespace Gameplay.Installers
             Container
                 .BindInterfacesAndSelfTo<EnemySpawner>()
                 .AsSingle();
-            
+
             Container
                 .BindInterfacesAndSelfTo<GameplayStateService>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<BattleZone>()
+                .FromInstance(_battleZone)
                 .AsSingle();
 
             Container
@@ -46,9 +46,9 @@ namespace Gameplay.Installers
                 .AsSingle();
 
             Container
-                .BindInterfacesAndSelfTo<BattleZone>()
-                .FromInstance(_battleZone)
-                .AsSingle();
+                .BindInterfacesAndSelfTo<Battle>()
+                .AsSingle()
+                .WithArguments(new BattleModel());
         }
     }
 }
