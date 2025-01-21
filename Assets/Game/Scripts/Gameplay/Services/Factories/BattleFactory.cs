@@ -6,6 +6,7 @@ using Gameplay.Model;
 using Gameplay.Model.Enemies;
 using Gameplay.Presenters;
 using Gameplay.View;
+using Model.Effects;
 using Root.Services;
 using UnityEngine;
 using Zenject;
@@ -34,22 +35,13 @@ namespace Gameplay.Services
         public async UniTask<CardPresenter> CreateCard(CardStaticData data)
         {
             CardView cardView = Instantiate(_staticDataService.Card, Vector3.zero, Quaternion.identity);
-            int otherStats = data.Type switch
-            {
-                CardType.None => 0,
-                CardType.Attack => data.Damage,
-                CardType.Ability => data.OtherStats,
-                CardType.Healing => data.Health,
-                _ => 0
-            };
                 
             CardModel cardModel = data.Type switch
             {
-                CardType.None => null,
                 CardType.Attack => new CardAttack(data),
                 CardType.Ability => throw new ArgumentOutOfRangeException(),
                 CardType.Healing => new CardHealing(data),
-                _ => throw new ArgumentOutOfRangeException()
+                CardType.Effect => CreateCardEffect(data)
             };
 
             CardPresenter card = new(cardView, cardModel);
@@ -59,7 +51,7 @@ namespace Gameplay.Services
             string descriptionCard = await _translationService.Translate($"{data.Id}_description", "Cards");
                 
             cardView.SetBaseInfo(data.Background, data.Icon, nameCard, descriptionCard, data.Cost);
-            cardView.SetOtherStats(otherStats, data.StatsIcon);
+            cardView.SetOtherStats(cardModel.Stats, data.StatsIcon);
 
             return card;
         }
@@ -70,17 +62,16 @@ namespace Gameplay.Services
             {
                 Id = enemyStaticData.Id,
                 CurrentHealth = enemyStaticData.MaxHealth,
-                MaxHealth = enemyStaticData.MaxHealth
+                MaxHealth = enemyStaticData.MaxHealth,
+                Damage = enemyStaticData.Damage,
+                Heal = enemyStaticData.Heal
             };
 
             List<Ability> abilities = new();
             EnemyProxy enemy = new(data, abilities);
-            
-            if (enemyStaticData.Abilities.HasFlag(AbilityType.Attack)) 
-                abilities.Add(new AbilityAttack(enemy, enemyStaticData));
-            
-            if (enemyStaticData.Abilities.HasFlag(AbilityType.Healing)) 
-                abilities.Add(new AbilityHealing(enemy, enemyStaticData));
+
+            foreach (AbilityStaticData abilityData in enemyStaticData.Abilities) 
+                abilities.Add(AbilityCreator.Creator[abilityData.Id](abilityData));
             
             return enemy;
         }
@@ -96,6 +87,12 @@ namespace Gameplay.Services
             };
 
             return new PlayerBattleProxy(playerBattleData);
+        }
+
+        private CardModel CreateCardEffect(CardStaticData cardData)
+        {
+            BaseEffect effect = EffectCreator.Creator[cardData.EffectData.Id](cardData.EffectData);
+            return new CardTimingEffect(cardData, effect);
         }
 
         private T Instantiate<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : MonoBehaviour

@@ -1,5 +1,5 @@
 ﻿using Gameplay.Presenters;
-using Gameplay.Spawners;
+using Model;
 using Gameplay.View;
 using Root.Services.InputService;
 using UnityEngine;

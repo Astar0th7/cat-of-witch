@@ -1,4 +1,5 @@
-﻿using Model.Entities;
+﻿using Model;
+using Model.Entities;
 
 namespace Model.Effects
 {
@@ -7,16 +8,15 @@ namespace Model.Effects
         private readonly ITakeDamage _takeDamage;
         private readonly int _damage;
 
-        public BleedingEffect(EffectType type, ITakeDamage takeDamage, int damage) : base(type)
+        public BleedingEffect(EffectType type, int duration, int damage) : base(type, duration)
         {
-            _takeDamage = takeDamage;
             _damage = damage;
         }
         
-        public override void Apply()
+        public override void Apply(IEntity entity)
         {
-            _takeDamage.TakeDamage(_damage);
-            base.Apply();
+            entity.TakeDamage(_damage);
+            base.Apply(entity);
         }
     }
 }

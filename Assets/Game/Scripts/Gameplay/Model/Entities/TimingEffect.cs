@@ -19,13 +19,11 @@ namespace Model.Entities
             }            
             
             Effects.Add(newEffect);
-            newEffect.TimingEffectEndedEvent += OnTimingEffectEnded;
         }
 
-        private void OnTimingEffectEnded(BaseEffect effect)
+        public void CheckEndedEffects()
         {
-            effect.TimingEffectEndedEvent -= OnTimingEffectEnded;
-            Effects.Remove(effect);
+            Effects = Effects.Where(x => x.Duration > 0).ToList();
         }
     }
 }

@@ -1,16 +1,16 @@
-﻿namespace Gameplay.Model.Enemies
+﻿using Model.Entities;
+
+namespace Gameplay.Model.Enemies
 {
     public abstract class Ability
     {
-        public EnemyProxy Enemy { get; }
-        public EnemyStaticData StaticData { get; }
+        public AbilityStaticData Data { get; }
 
-        public Ability(EnemyProxy enemy, EnemyStaticData staticData)
+        public Ability(AbilityStaticData data)
         {
-            Enemy = enemy;
-            StaticData = staticData;
+            Data = data;
         }
         
-        public abstract void Apply(PlayerBattleProxy player);
+        public abstract void Apply(IEntity player, int modify);
     }
 }

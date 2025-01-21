@@ -34,6 +34,14 @@ MonoBehaviour:
     m_Localized: Front paw strike, deals 2 damage
     m_Metadata:
       m_Items: []
+  - m_Id: 14407977971736576
+    m_Localized: Bleeding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14407980245049344
+    m_Localized: Bleeding
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

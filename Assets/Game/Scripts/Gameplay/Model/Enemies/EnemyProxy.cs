@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Model;
 using Model.Entities;
 using R3;
 using UnityEngine;
@@ -7,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace Gameplay.Model.Enemies
 {
-    public class EnemyProxy : ITakeDamage, IHealing, ITimingEffect
+    public class EnemyProxy : IEntity
     {
         private readonly EnemyData _originData;
         private readonly List<Ability> _abilities;
@@ -44,9 +45,17 @@ namespace Gameplay.Model.Enemies
             CurrentHealth.Value = Mathf.Min(MaxHealth, CurrentHealth.Value + health);
         }
 
-        public void UseAbility(PlayerBattleProxy player)
+        public void UseAbility(IEntity player)
         {
-            _abilities[Random.Range(0, _abilities.Count)].Apply(player);
+            Ability ability = _abilities[Random.Range(0, _abilities.Count)];
+            int modify = ability.Data.Type switch
+            {
+                AbilityType.Attack => _originData.Damage,
+                AbilityType.Healing => _originData.Heal,
+            };
+
+            IEntity entity = ability.Data.BaseType == BaseAbilityType.Negative ? player : this;
+            ability.Apply(entity, modify);
         }
     }
 }

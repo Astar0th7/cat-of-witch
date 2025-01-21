@@ -4,7 +4,7 @@ using Game.Scripts.Gameplay;
 using Gameplay.Model.Battle;
 using Gameplay.Presenters;
 using Gameplay.Services;
-using Gameplay.Spawners;
+using Model;
 using Gameplay.UI.Presenter;
 using R3;
 using UnityEngine;

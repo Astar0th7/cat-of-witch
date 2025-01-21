@@ -6,6 +6,7 @@ namespace Model.Effects
     [CreateAssetMenu(fileName = "New Effect", menuName = "StaticData/Effect")]
     public class EffectStaticData : ScriptableObject
     {
+        [SerializeField] private string _id;
         [SerializeField] private BaseEffectType _baseType;
         [SerializeField] private EffectType _effectType;
         [SerializeField] private int _duration;
@@ -22,6 +23,7 @@ namespace Model.Effects
         [ShowIf("_effectType", EffectType.Buff)]
         [SerializeField] private int _otherStats;
 
+        public string Id => _id;
         public BaseEffectType BaseType => _baseType;
         public EffectType EffectType => _effectType;
         public int Duration => _duration;

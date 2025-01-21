@@ -1,7 +1,7 @@
 ﻿using Game.Scripts.Gameplay;
 using Gameplay.Model.Battle;
 using Gameplay.Services;
-using Gameplay.Spawners;
+using Model;
 using Gameplay.View;
 using UnityEngine;
 using Zenject;

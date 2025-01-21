@@ -3,8 +3,9 @@ using Game.Scripts.Gameplay;
 using Gameplay.Model.Enemies;
 using Gameplay.Presenters;
 using Gameplay.Services;
-using Gameplay.Spawners;
+using Model;
 using Gameplay.UI.Presenter;
+using Model.Effects;
 using R3;
 using UnityEngine;
 using Zenject;
@@ -46,7 +47,6 @@ namespace Gameplay.Model.Battle
         public void Tick()
         {
             // TODO: Cheat!!!
-            
             if (Input.GetKeyDown(KeyCode.D) && _enemy != null) 
                 _enemy.TakeDamage(_enemy.MaxHealth);
         }
@@ -69,18 +69,33 @@ namespace Gameplay.Model.Battle
             _battleHudPresenter.EndStepEvent += EndStep;
         }
 
-        private void EnemyStep()
-        {
-            _enemy.UseAbility(_playerBattle);
-        }
-
         private void EndStep()
         {
             EnemyStep();
             
-            EndRound();
+            if (_enemy.CurrentHealth.CurrentValue <= 0)
+                return;
             
+            EndRound();
+            PlayerStartStep();
+        }
+
+        private void EnemyStep()
+        {
+            _enemy.UseAbility(_playerBattle);
+            foreach (BaseEffect effect in _enemy.TimingEffects.Effects) 
+                effect.Apply(_enemy);
+            
+            _enemy.TimingEffects.CheckEndedEffects();
+        }
+
+        private void PlayerStartStep()
+        {
             _playerBattle.AddEnergy(3);
+            foreach (BaseEffect effect in _playerBattle.TimingEffects.Effects) 
+                effect.Apply(_playerBattle);
+            
+            _playerBattle.TimingEffects.CheckEndedEffects();
         }
 
         private void EndRound()

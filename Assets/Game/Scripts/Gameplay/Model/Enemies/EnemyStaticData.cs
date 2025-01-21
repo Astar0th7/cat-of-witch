@@ -1,4 +1,6 @@
-﻿using NaughtyAttributes;
+﻿using System.Collections.Generic;
+using Model.Effects;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,23 +11,15 @@ namespace Gameplay.Model.Enemies
     {
         [SerializeField] private string _id;
         [SerializeField] private int _maxHealth;
+        [SerializeField] private int _damage;
+        [SerializeField] private int _heal;
+        [SerializeField] private List<AbilityStaticData> _abilities;
         
-        [EnumFlags]
-        [SerializeField] private AbilityType _abilities;
-
-        [ShowIf("_abilities", AbilityType.Attack)]
-        [MinMaxSlider(0, 100)]
-        [SerializeField] private Vector2Int _damage;
-        
-        [FormerlySerializedAs("Health")]
-        [ShowIf("_abilities", AbilityType.Healing)]
-        [MinMaxSlider(0, 100)]
-        [SerializeField] private Vector2Int _health;
         
         public string Id => _id;
         public int MaxHealth => _maxHealth;
-        public AbilityType Abilities => _abilities;
-        public Vector2Int Damage => _damage;
-        public Vector2Int Health => _health;
+        public int Damage => _damage;
+        public int Heal => _heal;
+        public IReadOnlyList<AbilityStaticData> Abilities => _abilities;
     }
 }

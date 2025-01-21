@@ -5,5 +5,7 @@
         public string Id;
         public int MaxHealth;
         public int CurrentHealth;
+        public int Damage;
+        public int Heal;
     }
 }

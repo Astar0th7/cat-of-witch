@@ -1,10 +1,11 @@
-﻿using Model.Entities;
+﻿using Model;
+using Model.Entities;
 using R3;
 using UnityEngine;
 
 namespace Gameplay.Model
 {
-    public class PlayerBattleProxy : ITakeDamage, IHealing, ITimingEffect
+    public class PlayerBattleProxy : IEntity
     {
         public int MaxHealth { get; }
         public int MaxEnergy { get; }

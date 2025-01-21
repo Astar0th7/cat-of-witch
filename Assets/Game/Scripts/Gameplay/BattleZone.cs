@@ -7,7 +7,7 @@ using Gameplay.View;
 using UnityEngine;
 using Zenject;
 
-namespace Gameplay.Spawners
+namespace Model
 {
     public class BattleZone : MonoBehaviour
     {

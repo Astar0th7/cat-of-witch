@@ -6,5 +6,6 @@
         Attack = 1,
         Ability = 2,
         Healing = 3,
+        Effect = 4
     }
 }

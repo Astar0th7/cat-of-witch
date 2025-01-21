@@ -31,6 +31,14 @@ MonoBehaviour:
     m_Key: LickWounds_description
     m_Metadata:
       m_Items: []
+  - m_Id: 14407977971736576
+    m_Key: Bleeding_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14407980245049344
+    m_Key: Bleeding_description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

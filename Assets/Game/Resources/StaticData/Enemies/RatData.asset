@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: Rat
   _maxHealth: 10
-  _abilities: 1
-  _damage: {x: 2, y: 2}
-  _health: {x: 1, y: 3}
+  _damage: 2
+  _heal: 0
+  _abilities:
+  - {fileID: 11400000, guid: ad01947e3cff3074f9bcc71b52afc798, type: 2}
+  - {fileID: 11400000, guid: f33fc5579fe402d49afc3498625592f3, type: 2}

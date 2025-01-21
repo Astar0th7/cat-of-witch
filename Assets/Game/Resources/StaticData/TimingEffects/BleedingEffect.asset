@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5298f332ddd747778baf0bd8c6f31ecc, type: 3}
   m_Name: BleedingEffect
   m_EditorClassIdentifier: 
+  _id: Bleeding
   _baseType: 1
   _effectType: 1
   _duration: 2

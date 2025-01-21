@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using Model.Effects;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,6 +26,9 @@ namespace Gameplay.Model
         [ShowIf("_type", CardType.Ability)] 
         [SerializeField] private int _otherStats;
         
+        [ShowIf("_type", CardType.Effect)] 
+        [SerializeField] private EffectStaticData _effectData;
+        
         public string Id => _id;
         public CardType Type => _type;
         public Sprite Background => _background;
@@ -34,5 +38,6 @@ namespace Gameplay.Model
         public int Health => _health;
         public int OtherStats => _otherStats;
         public Sprite StatsIcon => _statsIcon;
+        public EffectStaticData EffectData => _effectData;
     }
 }
