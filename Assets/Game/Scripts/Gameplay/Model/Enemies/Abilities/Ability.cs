@@ -11,6 +11,6 @@ namespace Gameplay.Model.Enemies
             Data = data;
         }
         
-        public abstract void Apply(IEntity player, int modify);
+        public abstract void Apply(IEntity entity, int modify);
     }
 }

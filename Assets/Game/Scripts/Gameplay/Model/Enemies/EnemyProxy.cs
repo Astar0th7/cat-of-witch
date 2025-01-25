@@ -52,6 +52,7 @@ namespace Gameplay.Model.Enemies
             {
                 AbilityType.Attack => _originData.Damage,
                 AbilityType.Healing => _originData.Heal,
+                _ => 0
             };
 
             IEntity entity = ability.Data.BaseType == BaseAbilityType.Negative ? player : this;

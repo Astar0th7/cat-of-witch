@@ -9,6 +9,7 @@ namespace Gameplay.Model.Enemies
         {
             {"Punch", data => new AbilityAttack(data)},
             {"Heal", data => new AbilityHealing(data)},
+            {"Bleeding", data => new AbilityEffect(data)},
         };
     }
 }
