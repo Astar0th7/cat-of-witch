@@ -1,29 +1,31 @@
 ﻿using System;
 using Model;
 using Model.Entities;
+using R3;
 
 namespace Model.Effects
 {
     public abstract class BaseEffect
     {
-        public int Duration { get; private set; }
+        private ReactiveProperty<int> _duration { get; } = new();
         
-        public EffectType Type { get; set; }
+        public ReadOnlyReactiveProperty<int> Duration => _duration;
+        public string Id { get; set; }
 
-        public BaseEffect(EffectType type, int duration)
+        public BaseEffect(string id, int duration)
         {
-            Type = type;
-            Duration = duration;
+            Id = id;
+            _duration.Value = duration;
         }
         
         public void AddTime(int duration)
         {
-            Duration += duration;
+            _duration.Value += duration;
         }
 
         public virtual void Apply(IEntity entity)
         {
-            Duration--;
+            _duration.Value--;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Model.Effects
     {
         public static readonly Dictionary<string, Func<EffectStaticData, BaseEffect>> Creator = new()
         {
-            {"Bleeding", data => new BleedingEffect(data.EffectType, data.Duration, data.Damage)},
+            {"Bleeding", data => new BleedingEffect(data.Id, data.Duration, data.Damage)},
         };
     }
 }

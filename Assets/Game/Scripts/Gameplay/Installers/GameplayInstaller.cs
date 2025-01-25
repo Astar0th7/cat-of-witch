@@ -20,10 +20,6 @@ namespace Gameplay.Installers
         public override void InstallBindings()
         {
             Container
-                .BindInterfacesTo<BattleFactory>()
-                .AsSingle();
-
-            Container
                 .BindInterfacesAndSelfTo<CardSpawner>()
                 .AsSingle();
 

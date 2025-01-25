@@ -8,7 +8,7 @@ namespace Model.Effects
         private readonly ITakeDamage _takeDamage;
         private readonly int _damage;
 
-        public BleedingEffect(EffectType type, int duration, int damage) : base(type, duration)
+        public BleedingEffect(string id, int duration, int damage) : base(id, duration)
         {
             _damage = damage;
         }
