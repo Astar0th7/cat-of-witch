@@ -74,6 +74,11 @@ namespace Gameplay.Presenters
             return true;
         }
 
+        public void FastRemove()
+        {
+            _view.FastRemove();
+        }
+
         public void Remove()
         {
             _view.Remove();

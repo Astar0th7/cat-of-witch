@@ -70,6 +70,34 @@ public partial class @DesktopInputMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Keyboard"",
+            ""id"": ""778e9f44-0b6b-4413-bb2d-1496ae9696a5"",
+            ""actions"": [
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""1a0df048-d2cf-4e19-a331-5ba730b5ba22"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""64cf973a-1fe1-432b-8121-a9aab48a9e77"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -78,11 +106,15 @@ public partial class @DesktopInputMap: IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Drag = m_Mouse.FindAction("Drag", throwIfNotFound: true);
         m_Mouse_Info = m_Mouse.FindAction("Info", throwIfNotFound: true);
+        // Keyboard
+        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
+        m_Keyboard_Menu = m_Keyboard.FindAction("Menu", throwIfNotFound: true);
     }
 
     ~@DesktopInputMap()
     {
         UnityEngine.Debug.Assert(!m_Mouse.enabled, "This will cause a leak and performance issues, DesktopInputMap.Mouse.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Keyboard.enabled, "This will cause a leak and performance issues, DesktopInputMap.Keyboard.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -194,9 +226,59 @@ public partial class @DesktopInputMap: IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Keyboard
+    private readonly InputActionMap m_Keyboard;
+    private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
+    private readonly InputAction m_Keyboard_Menu;
+    public struct KeyboardActions
+    {
+        private @DesktopInputMap m_Wrapper;
+        public KeyboardActions(@DesktopInputMap wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Menu => m_Wrapper.m_Keyboard_Menu;
+        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
+        public void AddCallbacks(IKeyboardActions instance)
+        {
+            if (instance == null || m_Wrapper.m_KeyboardActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Add(instance);
+            @Menu.started += instance.OnMenu;
+            @Menu.performed += instance.OnMenu;
+            @Menu.canceled += instance.OnMenu;
+        }
+
+        private void UnregisterCallbacks(IKeyboardActions instance)
+        {
+            @Menu.started -= instance.OnMenu;
+            @Menu.performed -= instance.OnMenu;
+            @Menu.canceled -= instance.OnMenu;
+        }
+
+        public void RemoveCallbacks(IKeyboardActions instance)
+        {
+            if (m_Wrapper.m_KeyboardActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IKeyboardActions instance)
+        {
+            foreach (var item in m_Wrapper.m_KeyboardActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public KeyboardActions @Keyboard => new KeyboardActions(this);
     public interface IMouseActions
     {
         void OnDrag(InputAction.CallbackContext context);
         void OnInfo(InputAction.CallbackContext context);
+    }
+    public interface IKeyboardActions
+    {
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

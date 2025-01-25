@@ -14,6 +14,7 @@ namespace Gameplay.Installers
         
         [Header("Battle")]
         [SerializeField] private UIGameplayBattleView _gameplayBattleView;
+        [SerializeField] private UIBattlePauseView _battlePauseView;
         [SerializeField] private UIPlayerInfoView _gameplayHUDView;
         [SerializeField] private UIEnemyInfoView _enemyInfoView;
         [SerializeField] private UIBattleHudView _battleHudView;
@@ -42,6 +43,12 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<GameplayBattlePresenter>()
                 .AsSingle()
                 .WithArguments(_gameplayBattleView)
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<BattlePausePresenter>()
+                .AsSingle()
+                .WithArguments(_battlePauseView)
                 .NonLazy();
             
             Container

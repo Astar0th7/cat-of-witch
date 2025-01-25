@@ -86,6 +86,11 @@ namespace Gameplay.View
             transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
 
+        public void FastRemove()
+        {
+            Destroy(gameObject);
+        }
+        
         public void Select()
         {
             CardSelectEvent?.Invoke();

@@ -65,7 +65,7 @@ namespace Gameplay.View
                 card.CardApplyEvent -= DeleteCard;
                 card.CardSelectEvent -= OnCardSelect;
                 card.CardClickedEvent -= OnCardClicked;
-                card.Remove();
+                card.FastRemove();
             }
             
             _cards.Clear();

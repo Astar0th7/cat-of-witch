@@ -9,6 +9,7 @@ namespace Root.Services.InputService
         public event Action LeftMouseButtonDownEvent;
         public event Action LeftMouseButtonUpEvent;
         public event Action RightMouseButtonClickedEvent;
+        public event Action MenuButtonClickedEvent;
 
         private readonly DesktopInputMap _inputMap;
 
@@ -21,6 +22,7 @@ namespace Root.Services.InputService
             _inputMap.Mouse.Drag.started += OnLeftMouseButtonDown;
             _inputMap.Mouse.Drag.canceled += OnLeftMouseButtonUp;
             _inputMap.Mouse.Info.performed += OnRightMouseButtonClicked;
+            _inputMap.Keyboard.Menu.performed += OnMenuButtonClicked;
         }
 
         public void Enable()
@@ -33,19 +35,16 @@ namespace Root.Services.InputService
             _inputMap.Disable();
         }
 
-        private void OnLeftMouseButtonDown(InputAction.CallbackContext context)
-        {
+        private void OnLeftMouseButtonDown(InputAction.CallbackContext context) => 
             LeftMouseButtonDownEvent?.Invoke();
-        }
 
-        private void OnLeftMouseButtonUp(InputAction.CallbackContext context)
-        {
+        private void OnLeftMouseButtonUp(InputAction.CallbackContext context) => 
             LeftMouseButtonUpEvent?.Invoke();
-        }
 
-        private void OnRightMouseButtonClicked(InputAction.CallbackContext context)
-        {
+        private void OnRightMouseButtonClicked(InputAction.CallbackContext context) => 
             RightMouseButtonClickedEvent?.Invoke();
-        }
+
+        private void OnMenuButtonClicked(InputAction.CallbackContext context) => 
+            MenuButtonClickedEvent?.Invoke();
     }
 }

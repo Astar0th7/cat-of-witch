@@ -1,6 +1,8 @@
 ﻿using Game.Scripts.Gameplay;
 using Gameplay.Model.Battle;
 using Gameplay.Services;
+using Gameplay.UI.Presenter;
+using Gameplay.UI.View;
 using Model;
 using Gameplay.View;
 using UnityEngine;
@@ -12,6 +14,8 @@ namespace Gameplay.Installers
     {
         [SerializeField] private Deck _deck;
         [SerializeField] private BattleZone _battleZone;
+        [SerializeField] private Location _homeLocation;
+        [SerializeField] private Location _battleLocation;
         
         public override void InstallBindings()
         {
@@ -49,6 +53,12 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<Battle>()
                 .AsSingle()
                 .WithArguments(new BattleModel());
+
+            Container
+                .BindInterfacesAndSelfTo<LocationPresenter>()
+                .AsSingle()
+                .WithArguments(_homeLocation, _battleLocation)
+                .NonLazy();
         }
     }
 }

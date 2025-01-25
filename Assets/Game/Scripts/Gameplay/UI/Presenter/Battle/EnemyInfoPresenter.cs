@@ -14,13 +14,11 @@ namespace Gameplay.UI.Presenter
 
         private readonly SliderPresenter _healthSlider;
         private readonly UIEnemyInfoView _view;
-        private readonly ITranslationService _translationService;
         private CompositeDisposable _subscription = new();
         
-        public EnemyInfoPresenter(UIEnemyInfoView view, ITranslationService translationService)
+        public EnemyInfoPresenter(UIEnemyInfoView view)
         {
             _view = view;
-            _translationService = translationService;
             _healthSlider = new SliderPresenter(_view.HealthSliderView);
         }
 
@@ -29,14 +27,12 @@ namespace Gameplay.UI.Presenter
             _subscription?.Dispose();
         }
 
-        public async void SetDataEnemy(EnemyProxy enemy)
+        public void SetDataEnemy(EnemyProxy enemy)
         {
             _subscription.Dispose();
             _subscription = new CompositeDisposable();
             
             _enemy = enemy;
-            string name = await _translationService.Translate($"{_enemy.Id}_name", "Enemies");
-            _view.SetName(name);
             _subscription.Add(_enemy.CurrentHealth.Subscribe(value => _healthSlider.SetValue(value, enemy.MaxHealth)));
         }
     }
