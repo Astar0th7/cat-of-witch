@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Model.Effects
@@ -9,6 +10,7 @@ namespace Model.Effects
         [SerializeField] private string _id;
         [SerializeField] private BaseEffectType _baseType;
         [SerializeField] private EffectType _effectType;
+        [SerializeField] private Sprite _icon;
         [SerializeField] private int _duration;
         
         [ShowIf("_effectType", EffectType.Attack)]
@@ -26,10 +28,29 @@ namespace Model.Effects
         public string Id => _id;
         public BaseEffectType BaseType => _baseType;
         public EffectType EffectType => _effectType;
+        public Sprite Icon => _icon;
         public int Duration => _duration;
         public int Damage => _damage;
         public int Healing => _healing;
         public int Defence => _defence;
         public int OtherStats => _otherStats;
+
+        public int GetStats()
+        {
+            int stats = EffectType switch
+            {
+                EffectType.Attack => Damage,
+                EffectType.Healing => Healing,
+                EffectType.Defense => Defence,
+                EffectType.Buff => OtherStats,
+                _ => 0
+            };
+            return stats;
+        }
+
+        public Sprite GetStatIcon()
+        {
+            return Icon;
+        }
     }
 }

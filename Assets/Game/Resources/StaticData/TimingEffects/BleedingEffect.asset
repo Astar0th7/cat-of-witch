@@ -15,6 +15,7 @@ MonoBehaviour:
   _id: Bleeding
   _baseType: 1
   _effectType: 1
+  _icon: {fileID: 21300000, guid: d9f3d0205b3511b4dbf8cd1ecacf4f05, type: 3}
   _duration: 2
   _damage: 1
   _healing: 0

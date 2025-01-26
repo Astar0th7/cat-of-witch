@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Services;
+using Gameplay.UI.Presenter.Library;
 using Gameplay.UI.View;
 using Zenject;
 
@@ -10,19 +11,23 @@ namespace Gameplay.UI.Presenter
         private readonly UIGameplayHomeView _view;
         private readonly IGameplayStateService _gameplayStateService;
         private readonly GameplayMenuPresenter _gameplayMenuPresenter;
+        private readonly LibraryPresenter _libraryPresenter;
 
         public GameplayHomePresenter(
             UIGameplayHomeView view, 
             IGameplayStateService gameplayStateService, 
-            GameplayMenuPresenter gameplayMenuPresenter)
+            GameplayMenuPresenter gameplayMenuPresenter,
+            LibraryPresenter libraryPresenter)
         {
             _view = view;
             _gameplayStateService = gameplayStateService;
             _gameplayMenuPresenter = gameplayMenuPresenter;
+            _libraryPresenter = libraryPresenter;
         }
 
         public void Initialize()
         {
+            _view.LibraryButtonClickedEvent += OnLibraryButtonClicked;
             _view.BattleButtonClickedEvent += OnBattleButtonClicked;
             _view.MenuButtonClickedEvent += OnMenuButtonClicked;
         }
@@ -51,6 +56,11 @@ namespace Gameplay.UI.Presenter
         public void Hide()
         {
             _view.Hide();
+        }
+
+        private void OnLibraryButtonClicked()
+        {
+            _libraryPresenter.Show();
         }
 
         private void OnBattleButtonClicked()

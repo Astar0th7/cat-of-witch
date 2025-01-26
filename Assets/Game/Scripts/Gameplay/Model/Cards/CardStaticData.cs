@@ -39,5 +39,26 @@ namespace Gameplay.Model
         public int OtherStats => _otherStats;
         public Sprite StatsIcon => _statsIcon;
         public EffectStaticData EffectData => _effectData;
+
+        public int GetStats()
+        {
+            if (Type == CardType.Effect)
+                return EffectData.GetStats();
+            
+            int stats = Type switch
+            {
+                CardType.Attack => Damage,
+                CardType.Ability => OtherStats,
+                CardType.Healing => Health,
+                _ => 0
+            };
+            
+            return stats;
+        }
+
+        public Sprite GetStatIcon()
+        {
+            return Type == CardType.Effect ? EffectData.GetStatIcon() : StatsIcon;
+        }
     }
 }

@@ -5,6 +5,7 @@ using Game.Scripts.Root;
 using Gameplay.Model;
 using Gameplay.Model.Enemies;
 using Gameplay.UI.View;
+using Gameplay.UI.View.Library;
 using Gameplay.View;
 using UnityEngine;
 
@@ -16,10 +17,12 @@ namespace Root.Services
         private readonly Dictionary<string, CardStaticData> _cardsData;
         public CardView Card { get; }
         public UITimingEffectView TimingEffectPrefab { get; }
+        public UILibraryCardView LibraryCardView { get; }
 
         public StaticDataService()
         {
-            TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_DATA_PATH);
+            TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_PREFAB_PATH);
+            LibraryCardView = Resources.Load<UILibraryCardView>(AssetsPath.LIBRARY_CARD_PREFAB_PATH);
             
             _cardsData = Resources.LoadAll<CardStaticData>(AssetsPath.CARDS_DATA_PATH).ToDictionary(x => x.Id, x => x);
             Card = Resources.Load<CardView>(AssetsPath.CARD_VIEW_PATH);
