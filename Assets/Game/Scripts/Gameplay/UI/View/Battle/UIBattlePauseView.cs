@@ -64,6 +64,11 @@ namespace Gameplay.UI.View
             _hideSequence.Play().OnComplete(() => gameObject.SetActive(false));
         }
 
+        public void FastHide()
+        {
+            gameObject.SetActive(false);
+        }
+
         private void OnRestartButtonClicked() => 
             RestartButtonClickedEvent?.Invoke();
 

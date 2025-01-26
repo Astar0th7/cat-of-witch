@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Services;
+using Gameplay.UI.Presenter.Library;
 using Gameplay.UI.View;
 using Root.Services.InputService;
 using Zenject;
@@ -11,15 +12,18 @@ namespace Gameplay.UI.Presenter
         private readonly UIBattlePauseView _view;
         private readonly IInputService _inputService;
         private readonly IGameplayStateService _gameplayStateService;
+        private readonly LibraryPresenter _libraryPresenter;
 
         public BattlePausePresenter(
             UIBattlePauseView view, 
             IInputService inputService,
-            IGameplayStateService gameplayStateService)
+            IGameplayStateService gameplayStateService, 
+            LibraryPresenter libraryPresenter)
         {
             _view = view;
             _inputService = inputService;
             _gameplayStateService = gameplayStateService;
+            _libraryPresenter = libraryPresenter;
         }
 
         public void Initialize()
@@ -49,11 +53,13 @@ namespace Gameplay.UI.Presenter
 
         private void OnLibraryButtonClicked()
         {
+            _libraryPresenter.Show();
         }
 
         private void OnLeaveButtonClickedEvent()
         {
             _gameplayStateService.HomeGameplay();
+            _view.FastHide();
         }
 
         private void OnMenuButtonClicked()

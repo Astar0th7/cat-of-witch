@@ -14,6 +14,7 @@ namespace Gameplay.UI.Presenter.Library
         private readonly ITranslationService _translationService;
 
         public string Id => _cardData.Id;
+        public event Action<string> CardClickedEvent; 
 
         public LibraryCardPresenter(
             UILibraryCardView view, 
@@ -37,6 +38,16 @@ namespace Gameplay.UI.Presenter.Library
             _view.CardButtonClickedEvent -= OnCardButtonClicked;
         }
 
+        public void Select()
+        {
+            _view.Select();
+        }
+
+        public void Deselect()
+        {
+            _view.Deselect();
+        }
+
         private async void SetCardData()
         {
             string nameCard = await _translationService.Translate($"{_cardData.Id}_name", NameTables.CARDS);
@@ -46,9 +57,10 @@ namespace Gameplay.UI.Presenter.Library
 
             _view.SetCardData(_cardData.Background, _cardData.Icon, nameCard, statIcon, stats, _cardData.Cost, description);
         }
-        
+
         private void OnCardButtonClicked()
         {
+            CardClickedEvent?.Invoke(Id);
         }
     }
 }

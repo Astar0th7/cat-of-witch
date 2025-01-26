@@ -53,6 +53,17 @@ namespace Gameplay.UI.View.Library
             _descriptionText.text = description;
         }
 
+        public void Select()
+        {
+            _backgroundImage.color = Color.green;
+        }
+
+        public void Deselect()
+        { 
+            _backgroundImage.color = Color.white;
+        }
+
+        
         private void OnCardButtonClicked() => 
             CardButtonClickedEvent?.Invoke();
     }

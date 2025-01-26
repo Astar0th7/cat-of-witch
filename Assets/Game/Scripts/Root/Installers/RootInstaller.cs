@@ -1,4 +1,5 @@
-﻿using Gameplay.Model;
+﻿using System.Collections.Generic;
+using Gameplay.Model;
 using Root.Services;
 using Root.Services.InputService;
 using Root.Services.SaveLoad;
@@ -43,7 +44,8 @@ namespace Root.Installers
             PlayerData playerData = new()
             {
                 MaxHealth = 10,
-                MaxEnergy = 6
+                MaxEnergy = 6,
+                Deck = new List<string>()
             };
 
             Container

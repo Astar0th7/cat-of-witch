@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Gameplay.Model
 {
@@ -7,5 +8,6 @@ namespace Gameplay.Model
     {
         public int MaxHealth;
         public int MaxEnergy;
+        public List<string> Deck;
     }
 }
