@@ -52,6 +52,12 @@ namespace Gameplay.UI.Presenter.Library
             
             _disposable.Add(_player.Deck.ObserveAdd().Subscribe(context => CardSelected(context.Value)));
             _disposable.Add(_player.Deck.ObserveRemove().Subscribe(context => CardDeselected(context.Value)));
+
+            foreach (LibraryCardPresenter libraryCardPresenter in _libraryCardPresenters) 
+                libraryCardPresenter.Deselect();
+            
+            foreach (string id in _player.Deck) 
+                CardSelected(id);
         }
 
         public void Dispose()
@@ -60,8 +66,9 @@ namespace Gameplay.UI.Presenter.Library
 
             foreach (LibraryCardPresenter libraryCardPresenter in _libraryCardPresenters) 
                 libraryCardPresenter.CardClickedEvent -= OnCardClicked;
-            
+
             _libraryCardPresenters.Clear();
+            _disposable?.Dispose();
         }
 
         public void Show()
@@ -78,7 +85,7 @@ namespace Gameplay.UI.Presenter.Library
             }
             
             // TODO: Сохранение данных
-            _view.Hide();
+            _view.Hide(); 
         }
 
         private void OnCardClicked(string cardId)
@@ -92,6 +99,7 @@ namespace Gameplay.UI.Presenter.Library
         private void CardSelected(string cardId)
         {
             LibraryCardPresenter libraryCardPresenter = _libraryCardPresenters.FirstOrDefault(x => x.Id == cardId);
+            
             if (libraryCardPresenter == null)
             {
                 Debug.LogError($"Отстутствует презентер для карты - {cardId}");

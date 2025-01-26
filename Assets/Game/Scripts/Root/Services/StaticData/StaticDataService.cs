@@ -15,12 +15,15 @@ namespace Root.Services
     {
         private readonly Dictionary<string, EnemyStaticData> _enemiesData;
         private readonly Dictionary<string, CardStaticData> _cardsData;
+        
+        public PlayerDataByDefault PlayerDataByDefault { get; }
         public CardView Card { get; }
         public UITimingEffectView TimingEffectPrefab { get; }
         public UILibraryCardView LibraryCardView { get; }
 
         public StaticDataService()
         {
+            PlayerDataByDefault = Resources.Load<PlayerDataByDefault>(AssetsPath.PLAYER_DATA_BY_DEFAULT_PATH);
             TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_PREFAB_PATH);
             LibraryCardView = Resources.Load<UILibraryCardView>(AssetsPath.LIBRARY_CARD_PREFAB_PATH);
             

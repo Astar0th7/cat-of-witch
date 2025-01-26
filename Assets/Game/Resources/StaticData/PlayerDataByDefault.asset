@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 123fa2bfbd5e413f8b45561e175a9ec7, type: 3}
+  m_Name: PlayerDataByDefault
+  m_EditorClassIdentifier: 
+  _maxHealth: 20
+  _maxEnergy: 6
+  _deck:
+  - {fileID: 11400000, guid: 60526fde71623dd438c35e4f6119d899, type: 2}
+  - {fileID: 11400000, guid: 08e2459b895913d4d9bd1d4204ff0f46, type: 2}

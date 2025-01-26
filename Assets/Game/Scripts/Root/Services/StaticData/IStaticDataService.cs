@@ -11,6 +11,7 @@ namespace Root.Services
         CardView Card { get; }
         UITimingEffectView TimingEffectPrefab { get; }
         UILibraryCardView LibraryCardView { get; }
+        PlayerDataByDefault PlayerDataByDefault { get; }
         CardStaticData GetCardData(string id);
         CardStaticData[] GetAllCards();
         EnemyStaticData GetEnemyData(string id);

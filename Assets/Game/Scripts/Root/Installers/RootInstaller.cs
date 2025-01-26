@@ -23,35 +23,27 @@ namespace Root.Installers
             Container
                 .BindInterfacesAndSelfTo<SaveLoadListener>()
                 .AsSingle();
-            
-            Container
-                .BindInterfacesTo<DesktopSaveLoadService>()
-                .AsSingle();
-            
-            Container
-                .BindInterfacesTo<DesktopInputService>()
-                .AsSingle();
-            
-            Container
-                .BindInterfacesTo<StaticDataService>()
-                .AsSingle();
-            
-            Container
-                .BindInterfacesTo<TranslationService>()
-                .AsSingle();
-            
-            // TODO: Данные пользователя будут регистрироваться при загрузке данных, здесь для тестов
-            PlayerData playerData = new()
-            {
-                MaxHealth = 10,
-                MaxEnergy = 6,
-                Deck = new List<string>()
-            };
 
             Container
                 .BindInterfacesAndSelfTo<PlayerProxy>()
                 .AsSingle()
-                .WithArguments(playerData);
+                .WithArguments(new PlayerData());
+            
+            Container
+                .BindInterfacesTo<DesktopSaveLoadService>()
+                .AsSingle();
+
+            Container
+                .BindInterfacesTo<DesktopInputService>()
+                .AsSingle();
+
+            Container
+                .BindInterfacesTo<StaticDataService>()
+                .AsSingle();
+
+            Container
+                .BindInterfacesTo<TranslationService>()
+                .AsSingle();
             
 #if UNITY_EDITOR
             if (Application.isPlaying && SceneManager.GetActiveScene().name != SceneNames.INITIAL)

@@ -8,6 +8,6 @@ namespace Gameplay.Model
     {
         public int MaxHealth;
         public int MaxEnergy;
-        public List<string> Deck;
+        public List<string> Deck = new();
     }
 }
