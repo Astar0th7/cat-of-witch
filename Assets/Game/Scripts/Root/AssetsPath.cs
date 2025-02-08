@@ -2,6 +2,7 @@
 {
     public class AssetsPath
     {
+        public const string SETTINGS_DATA_BY_DEFAULT_PATH = "StaticData/SettingsDataByDefault";
         public const string PLAYER_DATA_BY_DEFAULT_PATH = "StaticData/PlayerDataByDefault";
         public const string ENEMIES_DATA_PATH = "StaticData/Enemies/";
         public const string CARDS_DATA_PATH = "StaticData/Cards/";

@@ -26,14 +26,14 @@ namespace Gameplay.UI.Presenter
         {
             _view.RestartButtonClickedEvent += OnRestartButtonClicked;
             _view.ChangeDeckButtonClickedEvent += OnChangeDeckButtonClicked;
-            _view.MenuButtonClickedEvent += OnMenuButtonClicked;
+            _view.HomeButtonClickedEvent += OnHomeButtonClicked;
         }
 
         public void Dispose()
         {
             _view.RestartButtonClickedEvent -= OnRestartButtonClicked;
             _view.ChangeDeckButtonClickedEvent -= OnChangeDeckButtonClicked;
-            _view.MenuButtonClickedEvent -= OnMenuButtonClicked;
+            _view.HomeButtonClickedEvent -= OnHomeButtonClicked;
         }
 
         public void Show()
@@ -54,7 +54,7 @@ namespace Gameplay.UI.Presenter
             _libraryPresenter.Show();
         }
 
-        private void OnMenuButtonClicked()
+        private void OnHomeButtonClicked()
         {
             _gameplayStateService.HomeGameplay();
             _view.Hide();

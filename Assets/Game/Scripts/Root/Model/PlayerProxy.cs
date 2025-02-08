@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using ObservableCollections;
 using R3;
 
-namespace Gameplay.Model
+namespace Root.Model
 {
     public class PlayerProxy
     {
@@ -12,19 +11,21 @@ namespace Gameplay.Model
         public ReactiveProperty<int> MaxHealth { get; }
         public ReactiveProperty<int> MaxEnergy { get; }
         public ObservableList<string> Deck { get; }
+        
+        public PlayerData OriginalData => _originalData;
 
         public PlayerProxy(PlayerData playerData)
         {
             _originalData = playerData;
             
-            MaxHealth = new ReactiveProperty<int>(playerData.MaxHealth);
-            MaxEnergy = new ReactiveProperty<int>(playerData.MaxEnergy);
-            Deck = new ObservableList<string>(playerData.Deck);
+            MaxHealth = new ReactiveProperty<int>(_originalData.MaxHealth);
+            MaxEnergy = new ReactiveProperty<int>(_originalData.MaxEnergy);
+            Deck = new ObservableList<string>(_originalData.Deck);
             
-            MaxHealth.Skip(1).Subscribe(value => playerData.MaxHealth = value);
-            MaxEnergy.Skip(1).Subscribe(value => playerData.MaxEnergy = value);
-            Deck.ObserveAdd().Skip(1).Subscribe(value => playerData.Deck.Add(value.Value));
-            Deck.ObserveRemove().Subscribe(value => playerData.Deck.Remove(value.Value));
+            MaxHealth.Skip(1).Subscribe(value => _originalData.MaxHealth = value);
+            MaxEnergy.Skip(1).Subscribe(value => _originalData.MaxEnergy = value);
+            Deck.ObserveAdd().Subscribe(value => _originalData.Deck.Add(value.Value));
+            Deck.ObserveRemove().Subscribe(value => _originalData.Deck.Remove(value.Value));
         }
 
         public void AddCardToDeck(string cardId)

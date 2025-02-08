@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.Root;
+using Root.Model;
 using Gameplay.Model;
 using Gameplay.Model.Enemies;
 using Gameplay.UI.View;
 using Gameplay.UI.View.Library;
 using Gameplay.View;
+using Root.Model.Settings;
 using UnityEngine;
 
 namespace Root.Services
@@ -16,6 +18,7 @@ namespace Root.Services
         private readonly Dictionary<string, EnemyStaticData> _enemiesData;
         private readonly Dictionary<string, CardStaticData> _cardsData;
         
+        public SettingsDataByDefault SettingsDataByDefault { get; }
         public PlayerDataByDefault PlayerDataByDefault { get; }
         public CardView Card { get; }
         public UITimingEffectView TimingEffectPrefab { get; }
@@ -23,6 +26,7 @@ namespace Root.Services
 
         public StaticDataService()
         {
+            SettingsDataByDefault = Resources.Load<SettingsDataByDefault>(AssetsPath.SETTINGS_DATA_BY_DEFAULT_PATH);
             PlayerDataByDefault = Resources.Load<PlayerDataByDefault>(AssetsPath.PLAYER_DATA_BY_DEFAULT_PATH);
             TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_PREFAB_PATH);
             LibraryCardView = Resources.Load<UILibraryCardView>(AssetsPath.LIBRARY_CARD_PREFAB_PATH);

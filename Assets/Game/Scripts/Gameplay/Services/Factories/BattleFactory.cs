@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Root.Model;
 using Root.Services.Translation;
 using Gameplay.Model;
 using Gameplay.Model.Enemies;

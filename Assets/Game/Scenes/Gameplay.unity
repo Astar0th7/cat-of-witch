@@ -4171,7 +4171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412 \u043C\u0435\u043D\u044E"
+  m_text: "\u0414\u043E\u043C\u043E\u0439"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c39babefbdfa7ec4bb33875d63d1ebe6, type: 2}
   m_sharedMaterial: {fileID: 5978050431209366656, guid: c39babefbdfa7ec4bb33875d63d1ebe6, type: 2}
@@ -6542,7 +6542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _restartButton: {fileID: 439616078}
   _changeDeckButton: {fileID: 564969983}
-  _menuButton: {fileID: 2104469426}
+  _homeButton: {fileID: 2104469426}
 --- !u!1 &1435159534
 GameObject:
   m_ObjectHideFlags: 0
@@ -9344,7 +9344,7 @@ GameObject:
   - component: {fileID: 2104469427}
   - component: {fileID: 2104469426}
   m_Layer: 5
-  m_Name: Menu_button
+  m_Name: Home_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

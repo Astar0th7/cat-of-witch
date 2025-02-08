@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Gameplay.Model
+namespace Root.Model
 {
     [Serializable]
     public class PlayerData

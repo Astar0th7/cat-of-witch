@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Root.Model;
 using Gameplay.Model;
+using Root.Model.Settings;
 using Root.Services;
 using Root.Services.InputService;
 using Root.Services.SaveLoad;
@@ -24,6 +26,11 @@ namespace Root.Installers
                 .BindInterfacesAndSelfTo<SaveLoadListener>()
                 .AsSingle();
 
+            Container
+                .BindInterfacesAndSelfTo<SettingsProxy>()
+                .AsSingle()
+                .WithArguments(new SettingsData());
+            
             Container
                 .BindInterfacesAndSelfTo<PlayerProxy>()
                 .AsSingle()

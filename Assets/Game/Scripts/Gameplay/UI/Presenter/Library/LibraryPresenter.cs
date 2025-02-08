@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Root.Model;
 using Gameplay.Model;
 using Gameplay.UI.View.Library;
 using Gameplay.Services;
@@ -8,6 +9,7 @@ using Gameplay.UI.View;
 using ObservableCollections;
 using R3;
 using Root.Services;
+using Services.SaveLoad;
 using UnityEngine;
 using Zenject;
 
@@ -16,26 +18,29 @@ namespace Gameplay.UI.Presenter.Library
     public class LibraryPresenter : IInitializable, IDisposable
     {
         private readonly UILibraryView _view;
+        private readonly PlayerProxy _player;
         private readonly IUIBattleFactory _uiBattleFactory;
         private readonly IStaticDataService _staticDataService;
         private readonly IGameplayStateService _gameplayStateService;
-        private readonly PlayerProxy _player;
+        private readonly ISaveLoadService _saveLoadService;
 
         private readonly List<LibraryCardPresenter> _libraryCardPresenters = new();
         private readonly CompositeDisposable _disposable = new();
 
         public LibraryPresenter(
             UILibraryView view, 
-            IUIBattleFactory uiBattleFactory, 
+            PlayerProxy player, 
+            IUIBattleFactory uiBattleFactory,
             IStaticDataService staticDataService,
             IGameplayStateService gameplayStateService,
-            PlayerProxy player)
+            ISaveLoadService saveLoadService)
         {
             _view = view;
+            _player = player;
             _uiBattleFactory = uiBattleFactory;
             _staticDataService = staticDataService;
             _gameplayStateService = gameplayStateService;
-            _player = player;
+            _saveLoadService = saveLoadService;
         }
         
         public void Initialize()
@@ -78,7 +83,7 @@ namespace Gameplay.UI.Presenter.Library
 
         private void OnSaveDeckButtonClicked()
         {
-            // TODO: Сохранение данных
+            _saveLoadService.Save();
             _view.Hide(); 
         }
 

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Gameplay.Model;
 using UnityEngine;
 
-namespace Gameplay.Model
+namespace Root.Model
 {
     [CreateAssetMenu(fileName = "New PlayerDataByDefault", menuName = "StaticData/PlayerDataByDefault")]
     public class PlayerDataByDefault : ScriptableObject
