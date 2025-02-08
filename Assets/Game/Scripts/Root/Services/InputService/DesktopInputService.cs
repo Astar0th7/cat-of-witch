@@ -25,14 +25,24 @@ namespace Root.Services.InputService
             _inputMap.Keyboard.Menu.performed += OnMenuButtonClicked;
         }
 
-        public void Enable()
+        public void EnableKeyboard()
         {
-            _inputMap.Enable();
+            _inputMap.Keyboard.Enable();
         }
 
-        public void Disable()
+        public void DisableKeyboard()
         {
-            _inputMap.Disable();
+            _inputMap.Keyboard.Disable();
+        }
+
+        public void EnableBattle()
+        {
+            _inputMap.Mouse.Enable();
+        }
+        
+        public void DisableBattle()
+        {
+            _inputMap.Mouse.Disable();
         }
 
         private void OnLeftMouseButtonDown(InputAction.CallbackContext context) => 

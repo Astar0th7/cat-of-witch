@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System;
+using Model;
 using Model.Entities;
 using R3;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Gameplay.Model
         public ReactiveProperty<int> CurrentEnergy { get; }
         public ReactiveProperty<int> NumberOfCart { get; }
         public TimingEffect TimingEffects { get; }
+        
+        public event Action PlayerDieEvent;
 
         public PlayerBattleProxy(PlayerBattleData playerBattleData)
         {
@@ -52,6 +55,9 @@ namespace Gameplay.Model
         public void TakeDamage(int damage)
         {
             CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damage);
+            
+            if (CurrentHealth.Value <= 0)
+                PlayerDieEvent?.Invoke();
         }
     }
 }

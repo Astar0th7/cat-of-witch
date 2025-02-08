@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8c82d7f9650918a48a07e34b8b5ae7dd
+guid: eab6c21a6f31c2446826aa372e23c004
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -492771603360573568
-    second: photo_2025-01-11_01-33-24_0
+      213: 8719673663076263405
+    second: ForestBG_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: photo_2025-01-11_01-33-24_0
+      name: ForestBG_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1280
-        height: 720
+        width: 2560
+        height: 1440
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0871b4a66d25929f0800000000000000
-      internalID: -492771603360573568
+      spriteID: de56dfc6ff0820970800000000000000
+      internalID: 8719673663076263405
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ForestBG_0: 8719673663076263405
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -31,7 +31,6 @@ namespace Gameplay.Controls
         {
             _camera = Camera.main;
 
-            _inputService.Enable();
             _inputService.LeftMouseButtonDownEvent += OnMouseButtonDown;
             _inputService.LeftMouseButtonUpEvent += OnMouseButtonUp;
             

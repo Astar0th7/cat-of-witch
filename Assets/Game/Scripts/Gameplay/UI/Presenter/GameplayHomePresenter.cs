@@ -2,6 +2,8 @@
 using Gameplay.Services;
 using Gameplay.UI.Presenter.Library;
 using Gameplay.UI.View;
+using NaughtyAttributes.Test;
+using Root.Services.SceneLoad;
 using Zenject;
 
 namespace Gameplay.UI.Presenter
@@ -9,20 +11,20 @@ namespace Gameplay.UI.Presenter
     public class GameplayHomePresenter : IInitializable, IDisposable, IHomeGameplayListener, IBattleGameplayListener
     {
         private readonly UIGameplayHomeView _view;
-        private readonly IGameplayStateService _gameplayStateService;
-        private readonly GameplayMenuPresenter _gameplayMenuPresenter;
         private readonly LibraryPresenter _libraryPresenter;
+        private readonly ISceneLoadService _sceneLoadService;
+        private readonly IGameplayStateService _gameplayStateService;
 
         public GameplayHomePresenter(
             UIGameplayHomeView view, 
-            IGameplayStateService gameplayStateService, 
-            GameplayMenuPresenter gameplayMenuPresenter,
-            LibraryPresenter libraryPresenter)
+            LibraryPresenter libraryPresenter, 
+            ISceneLoadService sceneLoadService,
+            IGameplayStateService gameplayStateService)
         {
             _view = view;
-            _gameplayStateService = gameplayStateService;
-            _gameplayMenuPresenter = gameplayMenuPresenter;
             _libraryPresenter = libraryPresenter;
+            _sceneLoadService = sceneLoadService;
+            _gameplayStateService = gameplayStateService;
         }
 
         public void Initialize()
@@ -70,7 +72,7 @@ namespace Gameplay.UI.Presenter
 
         private void OnMenuButtonClicked()
         {
-            _gameplayMenuPresenter.Show();
+            _sceneLoadService.Load(SceneNames.MENU);
         }
     }
 }

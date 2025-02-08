@@ -67,12 +67,15 @@ namespace Gameplay.UI.Presenter
             if (_gameplayStateService.State != GameplayState.Battle)
                 return;
             
+            
             if (_view.IsActive)
             {
+                _inputService.EnableBattle();
                 _view.Hide();
                 return;
             }
             
+            _inputService.DisableBattle();
             _view.Show();
         }
     }

@@ -78,12 +78,6 @@ namespace Gameplay.UI.Presenter.Library
 
         private void OnSaveDeckButtonClicked()
         {
-            if (_gameplayStateService.State == GameplayState.Battle)
-            {
-                _gameplayStateService.HomeGameplay();
-                _gameplayStateService.BattleGameplay();
-            }
-            
             // TODO: Сохранение данных
             _view.Hide(); 
         }

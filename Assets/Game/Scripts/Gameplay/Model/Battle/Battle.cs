@@ -7,6 +7,7 @@ using Model;
 using Gameplay.UI.Presenter;
 using Model.Effects;
 using R3;
+using Root.Services.InputService;
 using UnityEngine;
 using Zenject;
 
@@ -18,7 +19,10 @@ namespace Gameplay.Model.Battle
         private readonly EnemySpawner _enemySpawner;
         private readonly PlayerSpawner _playerSpawner;
         private readonly BattleHudPresenter _battleHudPresenter;
-        private readonly GameplayStateService _gameplayStateService;
+        private readonly BattleWinPresenter _battleWinPresenter;
+        private readonly BattleLosePresenter _battleLosePresenter;
+        private readonly IInputService _inputService;
+        private readonly IGameplayStateService _gameplayStateService;
 
         private EnemyProxy _enemy;
         private PlayerBattleProxy _playerBattle;
@@ -30,13 +34,19 @@ namespace Gameplay.Model.Battle
             BattleModel original, 
             PlayerSpawner playerSpawner,
             EnemySpawner enemySpawner,
-            BattleHudPresenter battleHudPresenter, 
-            GameplayStateService gameplayStateService)
+            BattleHudPresenter battleHudPresenter,
+            BattleWinPresenter battleWinPresenter,
+            BattleLosePresenter battleLosePresenter,
+            IInputService inputService, 
+            IGameplayStateService gameplayStateService)
         {
             _original = original;
             _playerSpawner = playerSpawner;
             _enemySpawner = enemySpawner;
             _battleHudPresenter = battleHudPresenter;
+            _battleWinPresenter = battleWinPresenter;
+            _battleLosePresenter = battleLosePresenter;
+            _inputService = inputService;
             _gameplayStateService = gameplayStateService;
 
             Rounds = new ReactiveProperty<int>(_original.Rounds);
@@ -47,8 +57,24 @@ namespace Gameplay.Model.Battle
         public void Tick()
         {
             // TODO: Cheat!!!
-            if (Input.GetKeyDown(KeyCode.D) && _enemy != null) 
+            if (Input.GetKeyDown(KeyCode.W) && _enemy != null) 
                 _enemy.TakeDamage(_enemy.MaxHealth);
+            
+            if (Input.GetKeyDown(KeyCode.L) && _playerBattle != null) 
+                _playerBattle.TakeDamage(_playerBattle.MaxHealth);
+        }
+
+        public void OnBattleGameplay()
+        {
+            _inputService.EnableKeyboard();
+            _inputService.EnableBattle();
+            _playerBattle = _playerSpawner.SpawnPlayer();
+            _enemy = _enemySpawner.Spawn();
+            Restart();
+            
+            _playerBattle.PlayerDieEvent += OnPlayerDie;
+            _enemy.EnemyDieEvent += OnEnemyDie;
+            _battleHudPresenter.EndStepEvent += EndStep;
         }
 
         public void OnHomeGameplay()
@@ -56,17 +82,10 @@ namespace Gameplay.Model.Battle
             if (_enemy != null)
                 _enemy.EnemyDieEvent -= OnEnemyDie;
             
-            _battleHudPresenter.EndStepEvent -= EndStep;
-        }
-
-        public void OnBattleGameplay()
-        {
-            _playerBattle = _playerSpawner.SpawnPlayer();
-            _enemy = _enemySpawner.Spawn();
-            Restart();
+            if (_playerBattle != null)
+                _playerBattle.PlayerDieEvent -= OnPlayerDie;
             
-            _enemy.EnemyDieEvent += OnEnemyDie;
-            _battleHudPresenter.EndStepEvent += EndStep;
+            _battleHudPresenter.EndStepEvent -= EndStep;
         }
 
         private void EndStep()
@@ -82,20 +101,26 @@ namespace Gameplay.Model.Battle
 
         private void EnemyStep()
         {
+            _enemy.TimingEffects.CheckEndedEffects();
+            
+            if (_enemy.CurrentHealth.CurrentValue <= 0)
+                return;
+            
             _enemy.UseAbility(_playerBattle);
             foreach (BaseEffect effect in _enemy.TimingEffects.Effects) 
                 effect.Apply(_enemy);
-            
-            _enemy.TimingEffects.CheckEndedEffects();
         }
 
         private void PlayerStartStep()
         {
+            _playerBattle.TimingEffects.CheckEndedEffects();
+            
+            if (_playerBattle.CurrentHealth.CurrentValue <= 0)
+                return;
+            
             _playerBattle.AddEnergy(3);
             foreach (BaseEffect effect in _playerBattle.TimingEffects.Effects) 
                 effect.Apply(_playerBattle);
-            
-            _playerBattle.TimingEffects.CheckEndedEffects();
         }
 
         private void EndRound()
@@ -111,7 +136,16 @@ namespace Gameplay.Model.Battle
 
         private void OnEnemyDie()
         {
-            _gameplayStateService.HomeGameplay();
+            _inputService.DisableKeyboard();
+            _inputService.DisableBattle();
+            _battleWinPresenter.Show(3, null);
+        }
+
+        private void OnPlayerDie()
+        {
+            _inputService.DisableKeyboard();
+            _inputService.DisableBattle();
+            _battleLosePresenter.Show();
         }
 
         public bool TryUseCard(CardPresenter card)

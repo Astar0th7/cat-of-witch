@@ -8,16 +8,12 @@ namespace Gameplay.UI.Presenter
     public class BattleHudPresenter : IInitializable, IDisposable
     {
         private readonly UIBattleHudView _view;
-        private readonly GameplayMenuPresenter _gameplayMenu;
 
         public event Action EndStepEvent;
 
-        public BattleHudPresenter(
-            UIBattleHudView view, 
-            GameplayMenuPresenter gameplayMenu)
+        public BattleHudPresenter(UIBattleHudView view)
         {
             _view = view;
-            _gameplayMenu = gameplayMenu;
         }
 
         public void Initialize()

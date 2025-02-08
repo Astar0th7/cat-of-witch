@@ -9,8 +9,6 @@ namespace Gameplay.Installers
 {
     public class UIGameplayInstaller : MonoInstaller
     {
-        [SerializeField] private UIGameplayMenuView _gameplayMenuView;
-        
         [Header("Home")]
         [SerializeField] private UIGameplayHomeView _gameplayHomeView;
         [SerializeField] private UILibraryView _libraryCardView;
@@ -22,15 +20,11 @@ namespace Gameplay.Installers
         [SerializeField] private UIEnemyInfoView _enemyInfoView;
         [SerializeField] private UIBattleHudView _battleHudView;
         [SerializeField] private UICardInfoView _cardInfoView;
+        [SerializeField] private UIBattleWinView _battleWinView;
+        [SerializeField] private UIBattleLoseView _battleLoseView;
 
         public override void InstallBindings()
         {
-            Container
-                .BindInterfacesAndSelfTo<GameplayMenuPresenter>()
-                .AsSingle()
-                .WithArguments(_gameplayMenuView)
-                .NonLazy();
-            
             Container
                 .BindInterfacesAndSelfTo<LibraryPresenter>()
                 .AsSingle()
@@ -82,6 +76,18 @@ namespace Gameplay.Installers
                 .BindInterfacesAndSelfTo<CardInfoPresenter>()
                 .AsSingle()
                 .WithArguments(_cardInfoView)
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<BattleWinPresenter>()
+                .AsSingle()
+                .WithArguments(_battleWinView)
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<BattleLosePresenter>()
+                .AsSingle()
+                .WithArguments(_battleLoseView)
                 .NonLazy();
         }
     }
