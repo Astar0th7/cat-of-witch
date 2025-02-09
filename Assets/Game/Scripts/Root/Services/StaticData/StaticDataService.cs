@@ -9,7 +9,9 @@ using Gameplay.UI.View;
 using Gameplay.UI.View.Library;
 using Gameplay.View;
 using Root.Model.Settings;
+using Root.Services.Audio;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Root.Services
 {
@@ -18,6 +20,8 @@ namespace Root.Services
         private readonly Dictionary<string, EnemyStaticData> _enemiesData;
         private readonly Dictionary<string, CardStaticData> _cardsData;
         
+        public AudioMixer AudioMixer { get; }
+        public AudioProvider AudioProvider { get; }
         public SettingsDataByDefault SettingsDataByDefault { get; }
         public PlayerDataByDefault PlayerDataByDefault { get; }
         public CardView Card { get; }
@@ -26,6 +30,9 @@ namespace Root.Services
 
         public StaticDataService()
         {
+            AudioMixer = Resources.Load<AudioMixer>(AssetsPath.AUDIO_MIXER_PATH);
+            AudioProvider = Resources.Load<AudioProvider>(AssetsPath.AUDIO_PROVIDER_PATH);
+
             SettingsDataByDefault = Resources.Load<SettingsDataByDefault>(AssetsPath.SETTINGS_DATA_BY_DEFAULT_PATH);
             PlayerDataByDefault = Resources.Load<PlayerDataByDefault>(AssetsPath.PLAYER_DATA_BY_DEFAULT_PATH);
             TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_PREFAB_PATH);

@@ -3,6 +3,7 @@ using Root.Model;
 using Gameplay.Model;
 using Root.Model.Settings;
 using Root.Services;
+using Root.Services.Audio;
 using Root.Services.InputService;
 using Root.Services.SaveLoad;
 using Root.Services.SceneLoad;
@@ -51,6 +52,11 @@ namespace Root.Installers
             Container
                 .BindInterfacesTo<TranslationService>()
                 .AsSingle();
+
+            Container
+                .BindInterfacesTo<AudioService>()
+                .AsSingle()
+                .NonLazy();
             
 #if UNITY_EDITOR
             if (Application.isPlaying && SceneManager.GetActiveScene().name != SceneNames.INITIAL)

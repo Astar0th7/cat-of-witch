@@ -9,5 +9,7 @@
         public const string CARD_VIEW_PATH = "Prefabs/Gameplay/Cards/Card";
         public const string TIMING_EFFECT_PREFAB_PATH = "Prefabs/UI/TimingEffect";
         public const string LIBRARY_CARD_PREFAB_PATH = "Prefabs/UI/UICardView";
+        public const string AUDIO_MIXER_PATH = "Audio/MainMixer";
+        public const string AUDIO_PROVIDER_PATH = "Audio/AudioProvider";
     }
 }

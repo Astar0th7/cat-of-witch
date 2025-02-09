@@ -5,6 +5,8 @@ using Gameplay.UI.View;
 using Gameplay.UI.View.Library;
 using Gameplay.View;
 using Root.Model.Settings;
+using Root.Services.Audio;
+using UnityEngine.Audio;
 
 namespace Root.Services
 {
@@ -15,6 +17,8 @@ namespace Root.Services
         UILibraryCardView LibraryCardView { get; }
         PlayerDataByDefault PlayerDataByDefault { get; }
         SettingsDataByDefault SettingsDataByDefault { get; }
+        AudioMixer AudioMixer { get; }
+        AudioProvider AudioProvider { get; }
         CardStaticData GetCardData(string id);
         CardStaticData[] GetAllCards();
         EnemyStaticData GetEnemyData(string id);
