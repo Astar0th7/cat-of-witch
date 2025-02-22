@@ -1,6 +1,7 @@
 ﻿using System;
 using Gameplay.Services;
 using Gameplay.UI.Presenter.Library;
+using Gameplay.UI.Presenter.ShopHats;
 using Gameplay.UI.View;
 using NaughtyAttributes.Test;
 using Root.Services.SceneLoad;
@@ -12,17 +13,20 @@ namespace Gameplay.UI.Presenter
     {
         private readonly UIGameplayHomeView _view;
         private readonly LibraryPresenter _libraryPresenter;
+        private readonly ShopHatsPresenter _shopHatsPresenter;
         private readonly ISceneLoadService _sceneLoadService;
         private readonly IGameplayStateService _gameplayStateService;
 
         public GameplayHomePresenter(
             UIGameplayHomeView view, 
             LibraryPresenter libraryPresenter, 
+            ShopHatsPresenter shopHatsPresenter,
             ISceneLoadService sceneLoadService,
             IGameplayStateService gameplayStateService)
         {
             _view = view;
             _libraryPresenter = libraryPresenter;
+            _shopHatsPresenter = shopHatsPresenter;
             _sceneLoadService = sceneLoadService;
             _gameplayStateService = gameplayStateService;
         }
@@ -31,11 +35,13 @@ namespace Gameplay.UI.Presenter
         {
             _view.LibraryButtonClickedEvent += OnLibraryButtonClicked;
             _view.BattleButtonClickedEvent += OnBattleButtonClicked;
+            _view.ShopHatsButtonClickedEvent += OnShopHatsButtonClicked;
             _view.MenuButtonClickedEvent += OnMenuButtonClicked;
         }
 
         public void Dispose()
         {
+            _view.LibraryButtonClickedEvent -= OnLibraryButtonClicked;
             _view.BattleButtonClickedEvent -= OnBattleButtonClicked;
             _view.MenuButtonClickedEvent -= OnMenuButtonClicked;
         }
@@ -60,19 +66,18 @@ namespace Gameplay.UI.Presenter
             _view.Hide();
         }
 
-        private void OnLibraryButtonClicked()
-        {
+        private void OnLibraryButtonClicked() => 
             _libraryPresenter.Show();
-        }
 
-        private void OnBattleButtonClicked()
-        {
+        private void OnBattleButtonClicked() => 
             _gameplayStateService.BattleGameplay();
+
+        private void OnShopHatsButtonClicked()
+        {
+            _shopHatsPresenter.Show();
         }
 
-        private void OnMenuButtonClicked()
-        {
+        private void OnMenuButtonClicked() => 
             _sceneLoadService.Load(SceneNames.MENU);
-        }
     }
 }

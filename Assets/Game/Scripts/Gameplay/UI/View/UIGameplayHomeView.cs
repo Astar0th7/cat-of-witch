@@ -1,17 +1,20 @@
 ﻿using System;
+using Root.UI.View;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Gameplay.UI.View
 {
-    public class UIGameplayHomeView : MonoBehaviour
+    public class UIGameplayHomeView : BaseView
     {
         [SerializeField] private Button _libraryButton;
         [SerializeField] private Button _battleButton;
+        [SerializeField] private Button _shopHatsButton;
         [SerializeField] private Button _menuButton;
 
         public event Action LibraryButtonClickedEvent;
         public event Action BattleButtonClickedEvent;
+        public event Action ShopHatsButtonClickedEvent;
         public event Action MenuButtonClickedEvent;
 
 
@@ -19,6 +22,7 @@ namespace Gameplay.UI.View
         {
             _libraryButton.onClick.AddListener(OnLibraryButtonClicked);
             _battleButton.onClick.AddListener(OnBattleButtonClicked);
+            _shopHatsButton.onClick.AddListener(OnShopHatsButtonClicked);
             _menuButton.onClick.AddListener(OnMenuButtonClicked);
         }
 
@@ -26,32 +30,20 @@ namespace Gameplay.UI.View
         {
             _libraryButton.onClick.RemoveListener(OnLibraryButtonClicked);
             _battleButton.onClick.RemoveListener(OnBattleButtonClicked);
+            _shopHatsButton.onClick.RemoveListener(OnShopHatsButtonClicked);
             _menuButton.onClick.RemoveListener(OnMenuButtonClicked);
         }
 
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
-
-        private void OnLibraryButtonClicked()
-        {
+        private void OnLibraryButtonClicked() => 
             LibraryButtonClickedEvent?.Invoke();
-        }
 
-        private void OnBattleButtonClicked()
-        {
+        private void OnBattleButtonClicked() => 
             BattleButtonClickedEvent?.Invoke();
-        }
 
-        private void OnMenuButtonClicked()
-        {
+        private void OnShopHatsButtonClicked() => 
+            ShopHatsButtonClickedEvent?.Invoke();
+
+        private void OnMenuButtonClicked() => 
             MenuButtonClickedEvent?.Invoke();
-        }
     }
 }

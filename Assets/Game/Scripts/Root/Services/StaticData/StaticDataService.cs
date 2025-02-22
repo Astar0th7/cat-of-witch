@@ -7,7 +7,9 @@ using Gameplay.Model;
 using Gameplay.Model.Enemies;
 using Gameplay.UI.View;
 using Gameplay.UI.View.Library;
+using Gameplay.UI.View.ShopHats;
 using Gameplay.View;
+using Model.StaticData;
 using Root.Model.Settings;
 using Root.Services.Audio;
 using UnityEngine;
@@ -19,6 +21,7 @@ namespace Root.Services
     {
         private readonly Dictionary<string, EnemyStaticData> _enemiesData;
         private readonly Dictionary<string, CardStaticData> _cardsData;
+        private readonly HatsStaticData _hatsData;
         
         public AudioMixer AudioMixer { get; }
         public AudioProvider AudioProvider { get; }
@@ -27,7 +30,9 @@ namespace Root.Services
         public CardView Card { get; }
         public UITimingEffectView TimingEffectPrefab { get; }
         public UILibraryCardView LibraryCardView { get; }
-
+        public UIHatSlotView HatSlotView { get; }
+        public IReadOnlyList<HatData> HatsData => _hatsData.Hats;
+        
         public StaticDataService()
         {
             AudioMixer = Resources.Load<AudioMixer>(AssetsPath.AUDIO_MIXER_PATH);
@@ -38,6 +43,9 @@ namespace Root.Services
             TimingEffectPrefab = Resources.Load<UITimingEffectView>(AssetsPath.TIMING_EFFECT_PREFAB_PATH);
             LibraryCardView = Resources.Load<UILibraryCardView>(AssetsPath.LIBRARY_CARD_PREFAB_PATH);
             
+            HatSlotView = Resources.Load<UIHatSlotView>(AssetsPath.HAT_SLOT_PREFAB_PATH);
+            _hatsData = Resources.Load<HatsStaticData>(AssetsPath.HATS_PREFAB_PATH);
+                
             _cardsData = Resources.LoadAll<CardStaticData>(AssetsPath.CARDS_DATA_PATH).ToDictionary(x => x.Id, x => x);
             Card = Resources.Load<CardView>(AssetsPath.CARD_VIEW_PATH);
             
