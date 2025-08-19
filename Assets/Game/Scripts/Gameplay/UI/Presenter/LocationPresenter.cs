@@ -8,6 +8,9 @@ namespace Gameplay.UI.Presenter
         private readonly Location _homeLocation;
         private readonly Location _battleLocation;
 
+        public Location HomeLocation => _battleLocation;
+        public Location BattleLocation => _battleLocation;
+
         public LocationPresenter(Location homeLocation, Location battleLocation)
         {
             _homeLocation = homeLocation;

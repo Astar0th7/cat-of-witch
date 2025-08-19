@@ -1,0 +1,75 @@
+
+ForestBGfull.png
+size: 4008,3806
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Flowers 1
+  rotate: false
+  xy: 2, 3600
+  size: 663, 204
+  orig: 2562, 1442
+  offset: 892, 424
+  index: -1
+Forest
+  rotate: false
+  xy: 2, 1446
+  size: 2562, 1038
+  orig: 2562, 1442
+  offset: 0, 404
+  index: -1
+Из выделенного
+  rotate: true
+  xy: 667, 3342
+  size: 462, 590
+  orig: 2562, 1442
+  offset: 2100, 0
+  index: -1
+Изображение вставлено
+  rotate: false
+  xy: 1259, 3323
+  size: 575, 481
+  orig: 2562, 1442
+  offset: 1379, 0
+  index: -1
+Слой 11
+  rotate: false
+  xy: 2, 2486
+  size: 2562, 827
+  orig: 2562, 1442
+  offset: 0, 356
+  index: -1
+Слой 14
+  rotate: false
+  xy: 1836, 3315
+  size: 828, 489
+  orig: 2562, 1442
+  offset: 35, 35
+  index: -1
+Слой 15
+  rotate: false
+  xy: 2, 2
+  size: 2562, 1442
+  orig: 2562, 1442
+  offset: 0, 0
+  index: -1
+Фон
+  rotate: true
+  xy: 2566, 753
+  size: 2560, 1440
+  orig: 2562, 1442
+  offset: 1, 1
+  index: -1
+
+ForestBGfull2.png
+size: 2566,1446
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Слой 17
+  rotate: false
+  xy: 2, 2
+  size: 2562, 1442
+  orig: 2562, 1442
+  offset: 0, 0
+  index: -1

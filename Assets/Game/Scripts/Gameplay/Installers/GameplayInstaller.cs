@@ -26,7 +26,7 @@ namespace Gameplay.Installers
             Container.BindInterfacesAndSelfTo<GameplayStateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<BattleZone>().FromInstance(_battleZone).AsSingle();
             Container.BindInterfacesAndSelfTo<Deck>().FromInstance(_deck).AsSingle();
-            Container.BindInterfacesAndSelfTo<Battle>().AsSingle().WithArguments(new BattleModel());
+            Container.BindInterfacesAndSelfTo<Battler>().AsSingle().WithArguments(new BattleModel());
             Container.BindInterfacesAndSelfTo<LocationPresenter>().AsSingle().WithArguments(_homeLocation, _battleLocation).NonLazy();
         }
     }

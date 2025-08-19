@@ -16,7 +16,9 @@ namespace Gameplay.UI.View
         {
             _slideValueTween?.Kill(true);
 
-            _amountText.text = current.ToString();
+            if (_amountText != null)
+                _amountText.text = current.ToString();
+            
             float target = (float)current / max;
             _slideValueTween = _slider.DOValue(target, 0.1f).SetEase(Ease.InOutSine);
         }

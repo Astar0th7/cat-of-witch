@@ -16,19 +16,19 @@ namespace Gameplay.Services
 {
     public class BattleFactory : IBattleFactory
     {
-        private readonly DiContainer _container;
         private readonly PlayerProxy _player;
+        private readonly IInstantiator _instantiator;
         private readonly ITranslationService _translationService;
         private readonly IStaticDataService _staticDataService;
 
         public BattleFactory(
-            DiContainer container, 
-            PlayerProxy player,
+            PlayerProxy player, 
+            IInstantiator instantiator,
             ITranslationService translationService, 
             IStaticDataService staticDataService)
         {
-            _container = container;
             _player = player;
+            _instantiator = instantiator;
             _translationService = translationService;
             _staticDataService = staticDataService;
         }
@@ -57,11 +57,14 @@ namespace Gameplay.Services
             return card;
         }
 
-        public EnemyProxy CreateEnemy(EnemyStaticData enemyStaticData)
+        public EnemyProxy CreateEnemy(EnemyStaticData enemyStaticData, Transform point)
         {
+            EnemyView enemyView = Instantiate(enemyStaticData.EnemyPrefab, point.position, Quaternion.identity);
+            
             EnemyData data = new()
             {
                 Id = enemyStaticData.Id,
+                EnemyView = enemyView,
                 CurrentHealth = enemyStaticData.MaxHealth,
                 MaxHealth = enemyStaticData.MaxHealth,
                 Damage = enemyStaticData.Damage,
@@ -72,7 +75,7 @@ namespace Gameplay.Services
             EnemyProxy enemy = new(data, abilities);
 
             foreach (AbilityStaticData abilityData in enemyStaticData.Abilities) 
-                abilities.Add(AbilityCreator.Creator[abilityData.Id](abilityData));
+                abilities.Add(AbilityCreator.Creator[abilityData.TypeId](abilityData));
             
             return enemy;
         }
@@ -98,7 +101,7 @@ namespace Gameplay.Services
 
         private T Instantiate<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : MonoBehaviour
         {
-            return _container.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);
+            return _instantiator.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);
         }
     }
 }

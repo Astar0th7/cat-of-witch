@@ -1,0 +1,55 @@
+
+Mouse.png
+size: 596,629
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body
+  rotate: false
+  xy: 2, 390
+  size: 420, 237
+  orig: 902, 402
+  offset: 124, 109
+  index: -1
+Head
+  rotate: false
+  xy: 424, 282
+  size: 170, 163
+  orig: 902, 402
+  offset: 44, 146
+  index: -1
+LeftFoot
+  rotate: true
+  xy: 2, 2
+  size: 197, 255
+  orig: 902, 402
+  offset: 335, 57
+  index: -1
+LeftHand
+  rotate: false
+  xy: 259, 7
+  size: 141, 192
+  orig: 902, 402
+  offset: 176, 57
+  index: -1
+RightFoot
+  rotate: false
+  xy: 402, 29
+  size: 185, 251
+  orig: 902, 402
+  offset: 361, 57
+  index: -1
+RightHand
+  rotate: false
+  xy: 424, 447
+  size: 155, 180
+  orig: 902, 402
+  offset: 127, 58
+  index: -1
+Tail
+  rotate: false
+  xy: 2, 201
+  size: 394, 187
+  orig: 902, 402
+  offset: 483, 112
+  index: -1

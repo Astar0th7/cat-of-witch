@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RatData
   m_EditorClassIdentifier: 
   _id: Rat
+  <EnemyPrefab>k__BackingField: {fileID: 3137907124070041317, guid: 22ebd604cadd18d499a5c73b7afdfd69, type: 3}
   _maxHealth: 10
   _damage: 1
   _heal: 0

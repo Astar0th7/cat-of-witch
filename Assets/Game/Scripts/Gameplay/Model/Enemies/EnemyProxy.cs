@@ -4,6 +4,7 @@ using Model;
 using Model.Entities;
 using R3;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Gameplay.Model.Enemies
@@ -12,14 +13,15 @@ namespace Gameplay.Model.Enemies
     {
         private readonly EnemyData _originData;
         private readonly List<Ability> _abilities;
-        
-        public event Action EnemyDieEvent;
 
+        public IReadOnlyList<Ability> Abilities => _abilities;
         public TimingEffect TimingEffects { get; }
+
         public string Id { get; }
         public int MaxHealth { get; }
         public ReactiveProperty<int> CurrentHealth { get; }
-        
+        public event Action EnemyDieEvent;
+
         public EnemyProxy(EnemyData originData, List<Ability> abilities)
         {
             Id = originData.Id;
@@ -48,15 +50,23 @@ namespace Gameplay.Model.Enemies
         public void UseAbility(IEntity player)
         {
             Ability ability = _abilities[Random.Range(0, _abilities.Count)];
-            int modify = ability.Data.Type switch
+            int modify = ability.Data.Kind switch
             {
-                AbilityType.Attack => _originData.Damage,
-                AbilityType.Healing => _originData.Heal,
+                AbilityKind.Damage => _originData.Damage,
+                AbilityKind.Healing => _originData.Heal,
                 _ => 0
             };
 
             IEntity entity = ability.Data.BaseType == BaseAbilityType.Negative ? player : this;
             ability.Apply(entity, modify);
+        }
+
+        public void Destroy()
+        {
+            if (_originData.EnemyView == null)
+                return;
+            
+            Object.Destroy(_originData.EnemyView.gameObject);
         }
     }
 }

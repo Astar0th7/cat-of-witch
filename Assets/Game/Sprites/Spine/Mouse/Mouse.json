@@ -1,0 +1,41 @@
+{ "skeleton": { "images": "D:/Development/Unity/CatOfWitch/Assets/Game/Sprites/Spine/Mouse/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 1, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "RightFoot", "bone": "root", "attachment": "RightFoot" },
+	{ "name": "Tail", "bone": "root", "attachment": "Tail" },
+	{ "name": "RightHand", "bone": "root", "attachment": "RightHand" },
+	{ "name": "Body", "bone": "root", "attachment": "Body" },
+	{ "name": "LeftFoot", "bone": "root", "attachment": "LeftFoot" },
+	{ "name": "LeftHand", "bone": "root", "attachment": "LeftHand" },
+	{ "name": "Head", "bone": "root", "attachment": "Head" }
+],
+"skins": {
+	"default": {
+		"RightFoot": {
+			"RightFoot": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"Tail": {
+			"Tail": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"RightHand": {
+			"RightHand": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"Body": {
+			"Body": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"LeftFoot": {
+			"LeftFoot": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"LeftHand": {
+			"LeftHand": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		},
+		"Head": {
+			"Head": { "x": 450, "y": -200, "width": 902, "height": 402 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

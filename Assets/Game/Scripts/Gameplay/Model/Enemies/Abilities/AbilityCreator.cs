@@ -5,11 +5,11 @@ namespace Gameplay.Model.Enemies
 {
     public class AbilityCreator
     {
-        public static readonly Dictionary<string, Func<AbilityStaticData, Ability>> Creator = new()
+        public static readonly Dictionary<AbilityTypeId, Func<AbilityStaticData, Ability>> Creator = new()
         {
-            {"Punch", data => new AbilityAttack(data)},
-            {"Heal", data => new AbilityHealing(data)},
-            {"Bleeding", data => new AbilityEffect(data)},
+            {AbilityTypeId.Punch, data => new AbilityAttack(data)},
+            {AbilityTypeId.Healing, data => new AbilityHealing(data)},
+            {AbilityTypeId.Bleeding, data => new AbilityEffect(data)},
         };
     }
 }

@@ -1,0 +1,49 @@
+{ "skeleton": { "images": "D:/Development/Unity/CatOfWitch/Assets/Game/Sprites/Spine/BattleBackground/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 1, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Фон", "bone": "root", "attachment": "Фон" },
+	{ "name": "Forest", "bone": "root", "attachment": "Forest" },
+	{ "name": "Слой 11", "bone": "root", "attachment": "Слой 11" },
+	{ "name": "Слой 15", "bone": "root", "attachment": "Слой 15" },
+	{ "name": "Flowers 1", "bone": "root", "attachment": "Flowers 1" },
+	{ "name": "Слой 17", "bone": "root", "attachment": "Слой 17" },
+	{ "name": "Изображение вставлено", "bone": "root", "attachment": "Изображение вставлено" },
+	{ "name": "Слой 14", "bone": "root", "attachment": "Слой 14" },
+	{ "name": "Из выделенного", "bone": "root", "attachment": "Из выделенного" }
+],
+"skins": {
+	"default": {
+		"Фон": {
+			"Фон": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Forest": {
+			"Forest": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Слой 11": {
+			"Слой 11": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Слой 15": {
+			"Слой 15": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Flowers 1": {
+			"Flowers 1": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Слой 17": {
+			"Слой 17": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Изображение вставлено": {
+			"Изображение вставлено": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Слой 14": {
+			"Слой 14": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		},
+		"Из выделенного": {
+			"Из выделенного": { "x": 1280, "y": -720, "width": 2562, "height": 1442 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

@@ -5,6 +5,7 @@ namespace Gameplay.Model.Enemies
     public abstract class Ability
     {
         public AbilityStaticData Data { get; }
+        public bool IsReady { get; set; }
 
         public Ability(AbilityStaticData data)
         {

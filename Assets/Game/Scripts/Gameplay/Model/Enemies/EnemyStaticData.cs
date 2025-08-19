@@ -10,6 +10,7 @@ namespace Gameplay.Model.Enemies
     public class EnemyStaticData : ScriptableObject
     {
         [SerializeField] private string _id;
+        [field: SerializeField] public EnemyView EnemyPrefab { get; private set; }
         [SerializeField] private int _maxHealth;
         [SerializeField] private int _damage;
         [SerializeField] private int _heal;

@@ -37,6 +37,16 @@ namespace Gameplay.UI.View.ShopHats
             _priceText.text = price.ToString();
         }
 
+        public void Select()
+        {
+            _useButton.gameObject.SetActive(true);
+        }
+        
+        public void Deselect()
+        {
+            _useButton.gameObject.SetActive(false);
+        }
+
         private void OnSelectButtonClicked() => 
             SelectButtonClickedEvent?.Invoke();
 

@@ -11,22 +11,24 @@ namespace Model
 {
     public class BattleZone : MonoBehaviour
     {
+        [field: SerializeField] public Transform EnemySpawnPoint { get; private set; }
+        
         private Deck _deck;
-        private Battle _battle;
+        private Battler _battler;
 
         private EnemyProxy _enemy;
         private PlayerBattleProxy _playerBattle;
 
         [Inject]
-        private void Construct(Deck deck, Battle battle)
+        private void Construct(Deck deck, Battler battler)
         {
-            _battle = battle;
+            _battler = battler;
             _deck = deck;
         }
 
         public void ApplyCard(CardPresenter card)
         {
-            if (_battle.TryUseCard(card)) 
+            if (_battler.TryUseCard(card)) 
                 return;
             
             _deck.AddCard(card);

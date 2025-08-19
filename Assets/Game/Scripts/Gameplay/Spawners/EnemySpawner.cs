@@ -2,6 +2,7 @@
 using Gameplay.Services;
 using Gameplay.UI.Presenter;
 using Root.Services;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Game.Scripts.Gameplay
@@ -22,12 +23,13 @@ namespace Game.Scripts.Gameplay
             _factory = factory;
         }
 
-        public EnemyProxy Spawn()
+        public EnemyProxy Spawn(Transform point)
         {
             EnemyStaticData[] enemiesData = _staticDataService.GetAllEnemies();
             EnemyStaticData enemyData = enemiesData[Random.Range(0, enemiesData.Length)];
-            EnemyProxy enemy = _factory.CreateEnemy(enemyData);
+            EnemyProxy enemy = _factory.CreateEnemy(enemyData, point);
             _enemyInfoPresenter.SetDataEnemy(enemy);
+            
 
             return enemy;
         }

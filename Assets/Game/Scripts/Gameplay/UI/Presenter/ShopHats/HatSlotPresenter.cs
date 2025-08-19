@@ -11,6 +11,7 @@ namespace Gameplay.UI.Presenter.ShopHats
         private readonly HatData _hat;
         
         public string HatId => _hat.Id;
+        private bool _isBuy;
         
         public event Action<string> HatSelectButtonClickedEvent; 
         public event Action<string> HatUseButtonClickedEvent;
@@ -34,6 +35,16 @@ namespace Gameplay.UI.Presenter.ShopHats
         {
             _view.SelectButtonClickedEvent -= OnSelectButtonClicked;
             _view.UseButtonClickedEvent -= OnUseButtonClicked;
+        }
+
+        public void Select()
+        {
+            _view.Select();
+        }
+        
+        public void Deselect()
+        {
+            _view.Deselect();
         }
 
         private void OnSelectButtonClicked() => 
